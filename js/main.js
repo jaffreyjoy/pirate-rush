@@ -5,7 +5,8 @@ var cursors;
 
 function preloadMain() {
     game.load.image('sea', 'assets/sea.png');
-    game.load.spritesheet('ship1', 'assets/ship_init.jpg', 31, 26);
+    // game.load.spritesheet('ship1', 'assets/ship_init.jpg', 31,26);
+    game.load.spritesheet('ship1', 'assets/ship_init_trans.png', 23,32,2);
 }
 
 function createMain() {
