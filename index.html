@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Pirate Rush</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+function preload() {
+        game.load.image('sea', 'assets/sea.png');
+        game.load.image('ship1', 'assets/ship1.png');
+}
+
+function create() {
+    game.add.sprite(0, 0, 'sea');
+    game.add.sprite(400, 450, 'ship1');
+}
+
+function update() {
+}
+
+</script>
+
+</body>
+</html>
