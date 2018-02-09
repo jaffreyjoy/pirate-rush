@@ -3,7 +3,7 @@
 var playerShip;
 var shipCannon;
 var cannonballs;
-
+var currentSpeed = 0;
 var enemyFleet;
 
 var fireRate = 300;
@@ -11,28 +11,32 @@ var cballSpeed = 500;
 var nextFire = 0;
 // var eFireDelay = 300;
 var shipDelay = 1000;
+// var noCannons = 15;
 
 var cursors;
+var wasd;
 
 function preloadMain() {
     game.load.image('sea', 'assets/sea-tile.png');
     game.load.image('cannon', 'assets/cannon.png');
     game.load.image('cannonball', 'assets/cannonball.png');
-    game.load.spritesheet('ship2', 'assets/ship_init.jpg', 31,26);
-    game.load.spritesheet('ship1', 'assets/ship_init_trans.png', 18,32,2);
+    game.load.spritesheet('shipx', 'assets/shipx.png');
+    game.load.spritesheet('ship2', 'assets/ship_init.jpg', 31, 26);
+    game.load.spritesheet('ship1', 'assets/ship_init_trans.png', 18, 32, 2);
     game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
 }
 
 function createMain() {
-	// Add Physics to system
-	game.physics.startSystem(Phaser.Physics.ARCADE);
+    // Add Physics to system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.add.sprite(0, 0, 'sea');
 
     // Player ship and its properties
-    playerShip =  game.add.sprite(400, 550, 'ship1');
-    playerShip.scale.setTo(2, 2);
-    playerShip.anchor.setTo(0.5, 0.1);
+    playerShip = game.add.sprite(400, 550, 'shipx');
+    playerShip.scale.setTo(0.8, 0.8);
+    // playerShip.rotation = 3.2;
+    playerShip.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(playerShip);
     playerShip.body.collideWorldBounds = true;
     playerShip.animations.add('move', [0, 1], 10, true);
@@ -43,8 +47,6 @@ function createMain() {
     //anchor for rotation performed in update function
     shipCannon.anchor.setTo(0.5, 0.8);
 
-    // Add cursor controls
-    cursors = game.input.keyboard.createCursorKeys();
 
     this.cbGroup = game.add.group();
 
@@ -79,14 +81,24 @@ function createMain() {
     //     this
     // );
 
+    // Add cursor controls
+    cursors = game.input.keyboard.createCursorKeys();
+    // Add WASD controls
+    wasd = {
+        up: game.input.keyboard.addKey(Phaser.Keyboard.W),
+        down: game.input.keyboard.addKey(Phaser.Keyboard.S),
+        left: game.input.keyboard.addKey(Phaser.Keyboard.A),
+        right: game.input.keyboard.addKey(Phaser.Keyboard.D),
+    };
+
 }
 
 function updateMain() {
 
     game.physics.arcade.overlap(cannonballs, enemyFleet, eKill, null, this);
 
-	// Reset player ship velocity
-	playerShip.body.velocity.x = 0;
+    // Reset player ship velocity
+    playerShip.body.velocity.x = 0;
     playerShip.body.velocity.y = 0;
 
     //set position of cannon sprite to the front of the ship deck
@@ -95,33 +107,38 @@ function updateMain() {
 
     //change cannon rotation based on mouse pointer(1.6 offset added as the vertical side of the img was pointing to the mouse pointer (if not added))
     shipCannon.rotation = game.physics.arcade.angleToPointer(shipCannon) + 1.6;
-    // console.log(shipCannon.angle);
 
-	// Movement of player ship
-	if (cursors.left.isDown) {
-		//Move left
-		playerShip.body.velocity.x = -150;
-		playerShip.animations.play('move');
-	}
-	else if(cursors.right.isDown) {
-		//Move right
-		playerShip.body.velocity.x = 150;
-		playerShip.animations.play('move');
-	}
-	else if(cursors.up.isDown) {
-		//Move up
-		playerShip.body.velocity.y = -150;
-		playerShip.animations.play('move');
-	}
-	else if(cursors.down.isDown) {
-		//Move down
-		playerShip.body.velocity.y = 150;
-		playerShip.animations.play('move');
-	}
-	else {
-		//Stop motion
-		playerShip.animations.stop();
-		playerShip.frame = 1;
+    console.log(shipCannon.angle);
+
+    // Rotation of player ship
+    if (cursors.left.isDown || wasd.left.isDown) {
+        //Move left
+        playerShip.angle -= 5;
+        // playerShip.animations.play('move');
+    }
+    else if (cursors.right.isDown || wasd.right.isDown) {
+        //Move right
+        playerShip.angle += 5;
+        // playerShip.animations.play('move');
+    }
+
+
+    // Movement of player ship
+    if (cursors.up.isDown || wasd.up.isDown) {
+        //Move up
+        currentSpeed = 150;
+        // playerShip.body.velocity.y = -150;
+    }
+
+    else {
+        //Stop motion
+        if (currentSpeed > 0) {
+            currentSpeed -= 5;
+        }
+    }
+
+    if (currentSpeed > 0) {
+        game.physics.arcade.velocityFromRotation(playerShip.rotation - 1.6, currentSpeed, playerShip.body.velocity);
     }
 
     if (game.input.activePointer.isDown) {
@@ -133,18 +150,20 @@ function updateMain() {
 }
 
 function fireCannon() {
-    if (game.time.now > nextFire && cannonballs.countDead() > 0) {
-        nextFire = game.time.now + fireRate;
-        var cannonball = cannonballs.getFirstExists(false);
-        console.log(cannonball);
-        cannonball.reset(shipCannon.x, shipCannon.y);
-        cannonball.rotation = game.physics.arcade.moveToPointer(
-            cannonball,
-            cballSpeed,
-            game.input.activePointer,
-            0
-        );
-    }
+    // if(noCannons > 0){
+        if (game.time.now > nextFire && cannonballs.countDead() > 0) {
+            nextFire = game.time.now + fireRate;
+            var cannonball = cannonballs.getFirstExists(false);
+            console.log(cannonball);
+            cannonball.reset(shipCannon.x, shipCannon.y);
+            cannonball.rotation = game.physics.arcade.moveToPointer(
+                cannonball,
+                cballSpeed,
+                game.input.activePointer,
+                0
+            );
+        }
+    // }
 }
 
 function createEnemy() {
@@ -160,7 +179,7 @@ function eKill(cBall, eShip) {
     var start = game.time.now;
     var boom = game.add.sprite(eShip.x, eShip.y, 'kaboom');
     boom.animations.add('explode', null, 24, false);
-    boom.animations.play('explode');
+    boom.animations.play('explode', null, false, true); //(animation_name,frame_rate,loop,killOnComplete_flag)
     cBall.kill();
     eShip.kill();
 
