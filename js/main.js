@@ -12,9 +12,8 @@ var nextFire = 0;
 // var eFireDelay = 300;
 var shipDelay = 1000;
 
-var gameScore = 0;
 var gst = "Current Score : ";
-var noCannons = 15;
+
 var nct ="Cannons Left : ";
 
 var cursors;
@@ -111,6 +110,11 @@ function createMain() {
 }
 
 function updateMain() {
+
+    if(noCannons <= 0){
+        // game.state.states['End'].finalScore = gameScore;
+        game.state.start('End');
+    }
 
     game.physics.arcade.overlap(cannonballs, enemyFleet, eKill, null, this);
 

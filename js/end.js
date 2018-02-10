@@ -1,13 +1,39 @@
 
+// var finalScore = 0;
+
 function preloadEnd() {
-    game.load.image('sea', 'assets/sea-tile.png');
-    game.load.spritesheet('ship2', 'assets/ship_initx.png');
+    game.load.image('end-page', 'assets/ui/end-page.png');
+    game.load.spritesheet('rbutton', 'assets/ui/restart-buttonx.png', 116, 116, 2);
+    game.load.spritesheet('hbutton', 'assets/ui/home-buttonx.png', 116, 116, 2);
+    game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 }
 
 function createEnd() {
+    game.add.sprite(0, 0, 'end-page');
+    rbutton = game.add.button(game.world.centerX - 160, 400, 'rbutton', restartGame , this, 1, 0);
+    hbutton = game.add.button(rbutton.x + 150, 400, 'hbutton', goToStartPage, this, 1, 0);
+    scoreText = game.add.bitmapText(game.world.centerX - 200, 300, 'gem', "Your Score : " + gameScore.toString(), 55);
+    scoreText.tint = 0xffffff;
+}
 
+function over() {
+    console.log('button over');
+}
+
+function out() {
+    console.log('button out');
 }
 
 function updateEnd() {
 
 }
+
+function restartGame() {
+    noCannons = 15;
+    game.state.start('Main');
+}
+
+function goToStartPage() {
+    game.state.start('Start');
+}
+

@@ -1,7 +1,7 @@
 
 function preloadStart() {
     game.load.image('start-page', 'assets/ui/start-page.png');
-    game.load.spritesheet('pbutton', 'assets/ui/play-buttonx.png', 116, 116, 3);
+    game.load.spritesheet('pbutton', 'assets/ui/play-buttonx1.png', 116, 116, 3);
 }
 
 function createStart() {
