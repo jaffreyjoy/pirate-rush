@@ -6,7 +6,10 @@ var cannonballs;
 
 var enemyFleet;
 
+
+// Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
 var fireRate = 150;
+
 var nextFire = 0;
 var eFireDelay = 300;
 var shipDelay = 1000;
@@ -136,7 +139,7 @@ function fireCannon() {
         nextFire = game.time.now + fireRate;
         var cannonball = cannonballs.getFirstExists(false);
         cannonball.reset(shipCannon.x, shipCannon.y);
-        cannonball.rotation = game.physics.arcade.moveToPointer(cannonball, 1000, game.input.activePointer, 500);
+        cannonball.rotation = game.physics.arcade.moveToPointer(cannonball, 400, game.input.activePointer);
     }
 }
 
@@ -152,6 +155,7 @@ function createEnemy() {
 function eKill(cBall, eShip) {
     var start = game.time.now;
     var boom = game.add.sprite(eShip.x, eShip.y, 'kaboom');
+    boom.lifespan = 1100    // autokill after 1 second
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode');
     cBall.kill();
