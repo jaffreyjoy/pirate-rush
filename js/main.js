@@ -23,13 +23,9 @@ var wasd;
 function preloadMain() {
     game.load.image('sea', 'assets/sea-tile.png');
     game.load.image('cannon', 'assets/cannonx.png');
-    // game.load.image('cannon', 'assets/cannon.png');
     game.load.image('cannonball', 'assets/cannonballx.png');
-    // game.load.image('cannonball', 'assets/cannonball.png');
     game.load.spritesheet('ship2', 'assets/ship_initx.png');
-    // game.load.spritesheet('ship2', 'assets/ship_init.jpg', 31, 26);
     game.load.spritesheet('shipx', 'assets/shipx.png');
-    // game.load.spritesheet('ship1', 'assets/ship_init_trans.png', 18, 32, 2);
     game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
     game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 }
@@ -56,7 +52,7 @@ function createMain() {
     playerShip.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(playerShip);
     playerShip.body.collideWorldBounds = true;
-    playerShip.animations.add('move', [0, 1], 10, true);
+    // playerShip.animations.add('move', [0, 1], 10, true);
 
     // ship Cannon and its properties
     shipCannon = game.add.sprite(400, 550, 'cannon');
@@ -64,9 +60,7 @@ function createMain() {
     //anchor for rotation performed in update function
     shipCannon.anchor.setTo(0.5, 0.8);
 
-
     this.cbGroup = game.add.group();
-
 
     //  Our cannons group
     cannonballs = game.add.group();
@@ -127,7 +121,8 @@ function updateMain() {
     shipCannon.x = playerShip.x;
     shipCannon.y = playerShip.y;
 
-    //change cannon rotation based on mouse pointer(1.6 offset added as the vertical side of the img was pointing to the mouse pointer (if not added))
+    //change cannon rotation based on mouse pointer
+    //(1.6 offset added as the vertical side of the img was pointing to the mouse pointer (if not added))
     shipCannon.rotation = game.physics.arcade.angleToPointer(shipCannon) + 1.6;
 
     console.log(shipCannon.angle);
@@ -144,14 +139,12 @@ function updateMain() {
         // playerShip.animations.play('move');
     }
 
-
     // Movement of player ship
     if (cursors.up.isDown || wasd.up.isDown) {
         //Move up
         currentSpeed = 150;
         // playerShip.body.velocity.y = -150;
     }
-
     else {
         //Stop motion
         if (currentSpeed > 0) {
@@ -205,17 +198,10 @@ function createEnemy() {
 function eKill(cBall, eShip) {
     var start = game.time.now;
     var boom = game.add.sprite(eShip.x, eShip.y, 'kaboom');
-    boom.lifespan = 1100    // autokill after 1.1 second
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode', null, false, true); //(animation_name,frame_rate,loop,killOnComplete_flag)
     cBall.kill();
     eShip.kill();
     gameScore += 20;
     scoreText.text = gst + gameScore.toString();
-
-    // Kill explosion sprite after 1 second, since complete animation take 1 sec here
-    /*while(boom.alive) {
-        if(game.time.now > start + 1000)
-            boom.kill();
-    }*/
 }
