@@ -29,6 +29,7 @@ function updateEnd() {
 }
 
 function restartGame() {
+    gameScore= 0;
     noCannons = 15;
     game.state.start('Main');
 }

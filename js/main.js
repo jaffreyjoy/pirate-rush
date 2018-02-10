@@ -174,7 +174,7 @@ function updateMain() {
 function fireCannon() {
     if(noCannons > 0){
         if (game.time.now > nextFire && cannonballs.countDead() > 0) {
-            nextFire = game.time.now + fireRate;
+            nextFire = game.time.now + fireDelay;
             var cannonball = cannonballs.getFirstExists(false);
             console.log(cannonball);
             cannonball.reset(shipCannon.x, shipCannon.y);
