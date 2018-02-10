@@ -6,23 +6,23 @@ var cannonballs;
 
 var enemyFleet;
 
-
 // Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
-var fireRate = 150;
-
+//var fireRate = 150;
+var fireRate = 300;
+var cballSpeed = 500;
 var nextFire = 0;
-var eFireDelay = 300;
+// var eFireDelay = 300;
 var shipDelay = 1000;
 
 var cursors;
 
 function preloadMain() {
-    game.load.image('sea', 'assets/sea.png');
+    game.load.image('sea', 'assets/sea-tile.png');
     game.load.image('cannon', 'assets/cannon.png');
     game.load.image('cannonball', 'assets/cannonball.png');
     game.load.spritesheet('ship2', 'assets/ship_init.jpg', 31,26);
     game.load.spritesheet('ship1', 'assets/ship_init_trans.png', 18,32,2);
-    game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 23);
+    game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
 }
 
 function createMain() {
@@ -61,7 +61,7 @@ function createMain() {
     cannonballs.setAll('outOfBoundsKill', true);
     cannonballs.setAll('checkWorldBounds', true);
 
-    // Enemey ships group
+    // Enemy ships group
     enemyFleet = game.add.group();
     enemyFleet.enableBody = true;
     enemyFleet.physicsBodyType = Phaser.Physics.ARCADE;
@@ -138,12 +138,19 @@ function fireCannon() {
     if (game.time.now > nextFire && cannonballs.countDead() > 0) {
         nextFire = game.time.now + fireRate;
         var cannonball = cannonballs.getFirstExists(false);
+        console.log(cannonball);
         cannonball.reset(shipCannon.x, shipCannon.y);
-        cannonball.rotation = game.physics.arcade.moveToPointer(cannonball, 400, game.input.activePointer);
+        //cannonball.rotation = game.physics.arcade.moveToPointer(cannonball, 400, game.input.activePointer);
+        cannonball.rotation = game.physics.arcade.moveToPointer(
+            cannonball,
+            cballSpeed,
+            game.input.activePointer,
+            0
+        );
     }
 }
 
-function createEnemy() {  
+function createEnemy() {
     if (game.time.now > shipDelay && enemyFleet.countLiving() < 5) {
         shipDelay = game.time.now + 1000;
         var enemyShip = enemyFleet.getFirstExists(false);
