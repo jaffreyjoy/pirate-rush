@@ -5,6 +5,8 @@
 	<title>Pirate Rush</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/start.js"></script>
+	<script type="text/javascript" src="js/end.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -17,16 +19,37 @@
 		var game = new Phaser.Game(800, 600, Phaser.AUTO);
 
 		var gameState1 = function() {
-			console.log('Gamestate 1 - Main game');
+			console.log('Gamestate 1 - Start game');
 		};
 		gameState1.prototype = {
+			preload: preloadStart,
+			create: createStart,
+			update: updateStart
+		};
+
+		var gameState2 = function() {
+			console.log('Gamestate 2 - Main game');
+		};
+		gameState2.prototype = {
 			preload: preloadMain,
 			create: createMain,
 			update: updateMain
 		};
 
-		game.state.add('Main', gameState1);
-		game.state.start('Main');
+		var gameState3 = function() {
+			console.log('Gamestate 3 - End game');
+		};
+		gameState3.prototype = {
+			preload: preloadEnd,
+			create: createEnd,
+			update: updateEnd
+		};
+
+		game.state.add('Start', gameState1);
+		game.state.add('Main', gameState2);
+		game.state.add('End', gameState3);
+
+		game.state.start('Start');
 	</script>
 
 </body>

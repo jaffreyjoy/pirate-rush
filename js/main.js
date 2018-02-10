@@ -11,19 +11,27 @@ var cballSpeed = 500;
 var nextFire = 0;
 // var eFireDelay = 300;
 var shipDelay = 1000;
-// var noCannons = 15;
+
+var gameScore = 0;
+var gst = "Current Score : ";
+var noCannons = 15;
+var nct ="Cannons Left : ";
 
 var cursors;
 var wasd;
 
 function preloadMain() {
     game.load.image('sea', 'assets/sea-tile.png');
-    game.load.image('cannon', 'assets/cannon.png');
-    game.load.image('cannonball', 'assets/cannonball.png');
+    game.load.image('cannon', 'assets/cannonx.png');
+    // game.load.image('cannon', 'assets/cannon.png');
+    game.load.image('cannonball', 'assets/cannonballx.png');
+    // game.load.image('cannonball', 'assets/cannonball.png');
+    game.load.spritesheet('ship2', 'assets/ship_initx.png');
+    // game.load.spritesheet('ship2', 'assets/ship_init.jpg', 31, 26);
     game.load.spritesheet('shipx', 'assets/shipx.png');
-    game.load.spritesheet('ship2', 'assets/ship_init.jpg', 31, 26);
-    game.load.spritesheet('ship1', 'assets/ship_init_trans.png', 18, 32, 2);
+    // game.load.spritesheet('ship1', 'assets/ship_init_trans.png', 18, 32, 2);
     game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
+    game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 }
 
 function createMain() {
@@ -32,8 +40,17 @@ function createMain() {
 
     game.add.sprite(0, 0, 'sea');
 
+    //Add score text
+    scoreText = game.add.bitmapText(535, 570, 'gem', gst+gameScore.toString(), 25);
+    scoreText.tint = 0x223344;
+    // scoreText.text = gameScore.toString();
+    //Add canonns left text
+    cannonsLeftText = game.add.bitmapText(15, 570, 'gem', nct+noCannons.toString(), 25);
+    cannonsLeftText.tint = 0x223344;
+    // cannonsLeftText.text = noCannons.toString();
+
     // Player ship and its properties
-    playerShip = game.add.sprite(400, 550, 'shipx');
+    playerShip = game.add.sprite(400, 520, 'shipx');
     playerShip.scale.setTo(0.8, 0.8);
     // playerShip.rotation = 3.2;
     playerShip.anchor.setTo(0.5, 0.5);
@@ -150,7 +167,7 @@ function updateMain() {
 }
 
 function fireCannon() {
-    // if(noCannons > 0){
+    if(noCannons > 0){
         if (game.time.now > nextFire && cannonballs.countDead() > 0) {
             nextFire = game.time.now + fireRate;
             var cannonball = cannonballs.getFirstExists(false);
@@ -162,16 +179,21 @@ function fireCannon() {
                 game.input.activePointer,
                 0
             );
+            noCannons--;
+            cannonsLeftText.text = nct+noCannons.toString();
         }
-    // }
+    }
 }
 
 function createEnemy() {
     if (game.time.now > shipDelay && enemyFleet.countLiving() < 5) {
         shipDelay = game.time.now + 1000;
         var enemyShip = enemyFleet.getFirstExists(false);
-        enemyShip.reset(0, 60);
-        enemyShip.body.velocity.x = 100;
+        // if(enemyShip != null){
+            enemyShip.reset(0, 60);
+            enemyShip.body.velocity.x = 100;
+        // }
+
     }
 }
 
@@ -182,6 +204,8 @@ function eKill(cBall, eShip) {
     boom.animations.play('explode', null, false, true); //(animation_name,frame_rate,loop,killOnComplete_flag)
     cBall.kill();
     eShip.kill();
+    gameScore += 20;
+    scoreText.text = gst + gameScore.toString();
 
     // Kill explosion sprite after 1 second, since complete animation take 1 sec here
     /*while(boom.alive) {
