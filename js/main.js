@@ -5,6 +5,7 @@ var shipCannon;
 var cannonballs;
 var currentSpeed = 0;
 var enemyFleet;
+var eCannonballs;
 
 // Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
 var fireDelay = 300;
@@ -52,6 +53,9 @@ function createMain() {
     playerShip.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(playerShip);
     playerShip.body.collideWorldBounds = true;
+    playerShip.maxHealth = 100;
+    playerShip.health = playerShip.maxHealth;
+    console.log("Health: ", playerShip.health);
     // playerShip.animations.add('move', [0, 1], 10, true);
 
     // ship Cannon and its properties
@@ -78,6 +82,13 @@ function createMain() {
     enemyFleet.physicsBodyType = Phaser.Physics.ARCADE;
     enemyFleet.createMultiple(5, 'ship2', 0, false);
     enemyFleet.setAll('outOfBoundsKill', true);
+
+    // Enemy cannons group
+    eCannonballs = game.add.group();
+    eCannonballs.enableBody = true;
+    eCannonballs.physicsBodyType = Phaser.Physics.ARCADE;
+    eCannonballs.createMultiple(30, 'cannonball');
+    eCannonballs.setAll('outOfBoundsKill', true);
 
     // game.input.onDown.add(function () {
     //     console.log("clicked");
@@ -106,12 +117,13 @@ function createMain() {
 
 function updateMain() {
 
-    if(noCannons <= 0){
+    if(noCannons <= 0 || !playerShip.alive){
         // game.state.states['End'].finalScore = gameScore;
         game.state.start('End');
     }
 
     game.physics.arcade.overlap(cannonballs, enemyFleet, eKill, null, this);
+    game.physics.arcade.collide(playerShip, eCannonballs, damagePlayerShip, null, this);
 
     // Reset player ship velocity
     playerShip.body.velocity.x = 0;
@@ -191,12 +203,19 @@ function createEnemy() {
             enemyShip.reset(0, 60);
             enemyShip.body.velocity.x = 100;
         // }
-
+        eFire(enemyShip);
     }
 }
 
+function eFire(eShip) {
+    var eCBall = eCannonballs.getFirstExists(false);
+    eShip.anchor.setTo(0.5, 0.5);
+    console.log("Enemy cannonball");
+    eCBall.reset(eShip.x, eShip.y);
+    game.physics.arcade.moveToObject(eCBall, playerShip);
+}
+
 function eKill(cBall, eShip) {
-    var start = game.time.now;
     var boom = game.add.sprite(eShip.x, eShip.y, 'kaboom');
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode', null, false, true); //(animation_name,frame_rate,loop,killOnComplete_flag)
@@ -204,4 +223,13 @@ function eKill(cBall, eShip) {
     eShip.kill();
     gameScore += 20;
     scoreText.text = gst + gameScore.toString();
+}
+
+function damagePlayerShip(playerShip, cBall) {  //collideCallback(sprite, group) always
+    var boom = game.add.sprite(cBall.x, cBall.y, 'kaboom');
+    boom.animations.add('explode', null, 24, false);
+    boom.animations.play('explode', null, false, true);
+    cBall.kill();
+    playerShip.damage(30);
+    console.log("Health: ", playerShip.health);
 }
