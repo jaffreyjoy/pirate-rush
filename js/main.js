@@ -13,6 +13,8 @@ var cballSpeed = 500;
 var nextFire = 0;
 
 var shipDelay = 1000;
+var enemyFleetDelay = 10000;
+var nextFleet = 0;
 
 var gst = "Current Score : ";
 
@@ -20,6 +22,9 @@ var nct ="Cannons Left : ";
 
 var cursors;
 var wasd;
+
+var enemiesKilled = 0;
+var enemiesAlive = 0;
 
 function preloadMain() {
     game.load.image('sea', 'assets/sea-tile.png');
@@ -82,6 +87,7 @@ function createMain() {
     enemyFleet.physicsBodyType = Phaser.Physics.ARCADE;
     enemyFleet.createMultiple(5, 'ship2', 0, false);
     enemyFleet.setAll('outOfBoundsKill', true);
+    enemyFleet.setAll('exists', true);
 
     // Enemy cannons group
     eCannonballs = game.add.group();
@@ -173,7 +179,29 @@ function updateMain() {
         fireCannon();
     }
 
-    createEnemy();
+   // createEnemy();
+
+    if(game.time.now > nextFleet || enemiesAlive < 10) {
+        enemiesAlive += enemyFleet.length;
+        nextFleet += enemyFleetDelay;
+        createRandEnemy();
+    }
+        
+}
+
+function createRandEnemy() {
+    //enemyFleet.scatter(new Phaser.Rectangle(-100, -100, 200, 100));
+    enemyFleet.scatter(new Phaser.Rectangle(100, 100, 200, 100));
+    //enemyFleet.setAll('alive', true);
+    enemyFleet.setAll('body.velocity.x', 70);
+    //enemyFleet.setAll('body.onMoveComplete', )
+    enemyFleet.forEachExists(function(eShip) {
+        //eShip.body.moveFrom(2000, 80, -30.14);
+        eShip.body.moveTo(2000, 300, 90);
+        eShip.body.onMoveComplete.add(function() {
+            eFire(eShip);
+        });   
+    }, this);
 }
 
 function fireCannon() {
