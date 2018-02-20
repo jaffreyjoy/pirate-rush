@@ -4,23 +4,24 @@ var playerShip;
 var shipCannon;
 var cannonballs;
 var currentSpeed = 0;
+var lvlCannons;
+
 var enemyFleet;
-var levelEnemies = 5;
 var enemyTime = [];
 var eCannonballs;
+var enemyProps;
+var nextFleet = 0;
+
+
 
 // Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
 var fireDelay = 300;
 var cballSpeed = 500;
 var nextFire = 0;
 
-var shipDelay = 1000;
-var enemyFleetDelay = 10000;
-var nextFleet = 0;
-
 var gst = "Current Score : ";
 
-var nct ="Cannons Left : ";
+var nct = "Cannons Left : ";
 
 var cursors;
 var wasd;
@@ -29,10 +30,23 @@ var enemiesKilled = 0;
 var enemiesAlive = 0;
 
 function preloadMain() {
+    lvlCannons = noCannons[level];
+    if (level === 0)
+        enemyProps = l0;
+    else if (level === 1)
+        enemyProps = l1;
+    else if (level === 2)
+        enemyProps = l2;
+
     game.load.image('sea', 'assets/sea-tile.png');
     game.load.image('cannon', 'assets/cannonx.png');
     game.load.image('cannonball', 'assets/cannonballx.png');
-    game.load.spritesheet('ship2', 'assets/ship_initx.png');
+    game.load.spritesheet('ship0', 'assets/ship_0.png');
+    game.load.spritesheet('ship10', 'assets/ship_10.png');
+    game.load.spritesheet('ship11', 'assets/ship_11.png');
+    game.load.spritesheet('ship20', 'assets/ship_20.png');
+    game.load.spritesheet('ship21', 'assets/ship_21.png');
+    game.load.spritesheet('ship22', 'assets/ship_22.png');
     game.load.spritesheet('shipx', 'assets/shipx.png');
     game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
     game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
@@ -49,9 +63,9 @@ function createMain() {
     scoreText.tint = 0x223344;
     // scoreText.text = gameScore.toString();
     //Add canonns left text
-    cannonsLeftText = game.add.bitmapText(15, 570, 'gem', nct+noCannons.toString(), 25);
+    cannonsLeftText = game.add.bitmapText(15, 570, 'gem', nct+lvlCannons.toString(), 25);
     cannonsLeftText.tint = 0x223344;
-    // cannonsLeftText.text = noCannons.toString();
+    // cannonsLeftText.text = lvlCannons.toString();
 
     // Player ship and its properties
     playerShip = game.add.sprite(400, 520, 'shipx');
@@ -77,7 +91,7 @@ function createMain() {
     cannonballs = game.add.group();
     cannonballs.enableBody = true;
     cannonballs.physicsBodyType = Phaser.Physics.ARCADE;
-    cannonballs.createMultiple(30, 'cannonball', 0, false);
+    cannonballs.createMultiple(lvlCannons, 'cannonball', 0, false);
     cannonballs.setAll('anchor.x', 0.5);
     cannonballs.setAll('anchor.y', 0.5);
     cannonballs.setAll('outOfBoundsKill', true);
@@ -87,10 +101,10 @@ function createMain() {
     enemyFleet = game.add.group();
     enemyFleet.enableBody = true;
     enemyFleet.physicsBodyType = Phaser.Physics.ARCADE;
-    enemyFleet.createMultiple(levelEnemies, 'ship2', 0, false);
+    enemyFleet.createMultiple(enemyProps.spawns, enemyProps.sprites, 0, false);
     enemyFleet.setAll('outOfBoundsKill', true);
     enemyFleet.setAll('checkWorldBounds', true);
-    for(i = 0; i < levelEnemies; i++){
+    for(i = 0; i < (enemyProps.spawns * enemyProps.sprites.length); i++) {
         enemyTime.push(0);
     }
 
@@ -98,8 +112,9 @@ function createMain() {
     eCannonballs = game.add.group();
     eCannonballs.enableBody = true;
     eCannonballs.physicsBodyType = Phaser.Physics.ARCADE;
-    eCannonballs.createMultiple(30, 'cannonball');
+    eCannonballs.createMultiple(40, 'cannonball');
     eCannonballs.setAll('outOfBoundsKill', true);
+    eCannonballs.setAll('checkWorldBounds', true);
 
     // game.input.onDown.add(function () {
     //     console.log("clicked");
@@ -128,7 +143,7 @@ function createMain() {
 
 function updateMain() {
 
-    if(noCannons <= 0 || !playerShip.alive){
+    if(lvlCannons <= 0 || !playerShip.alive){
         // game.state.states['End'].finalScore = gameScore;
         game.state.start('End');
     }
@@ -196,13 +211,13 @@ function updateMain() {
         setTimeout(function(){
             eShip.angle = game.rnd.integerInRange(0, 180);
             game.physics.arcade.velocityFromRotation(Phaser.Math.degToRad(eShip.angle), 70, eShip.body.velocity);
-        },1000);
+        },enemyProps.wait);
        }
    }, this);
 }
 
 function fireCannon() {
-    if(noCannons > 0){
+    if(lvlCannons > 0){
         if (game.time.now > nextFire && cannonballs.countDead() > 0) {
             nextFire = game.time.now + fireDelay;
             var cannonball = cannonballs.getFirstExists(false);
@@ -214,15 +229,15 @@ function fireCannon() {
                 game.input.activePointer,
                 0
             );
-            noCannons--;
-            cannonsLeftText.text = nct+noCannons.toString();
+            lvlCannons--;
+            cannonsLeftText.text = nct+lvlCannons.toString();
         }
     }
 }
 
 function createEnemy() {
-    if (game.time.now > shipDelay && enemyFleet.countLiving() < 5) {
-        shipDelay = game.time.now + 3000;
+    if (game.time.now > nextFleet && enemyFleet.countLiving() < enemyFleet.length) {
+        nextFleet = game.time.now + enemyProps.delay;
         var enemyShip = enemyFleet.getFirstExists(false);
         // if(enemyShip != null){
         enemyShip.reset(game.world.randomX, 60);
