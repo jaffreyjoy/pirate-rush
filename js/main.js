@@ -5,6 +5,8 @@ var shipCannon;
 var cannonballs;
 var currentSpeed = 0;
 var enemyFleet;
+var levelEnemies = 5;
+var enemyTime = [];
 var eCannonballs;
 
 // Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
@@ -85,8 +87,12 @@ function createMain() {
     enemyFleet = game.add.group();
     enemyFleet.enableBody = true;
     enemyFleet.physicsBodyType = Phaser.Physics.ARCADE;
-    enemyFleet.createMultiple(5, 'ship2', 0, false);
+    enemyFleet.createMultiple(levelEnemies, 'ship2', 0, false);
     enemyFleet.setAll('outOfBoundsKill', true);
+    enemyFleet.setAll('checkWorldBounds', true);
+    for(i = 0; i < levelEnemies; i++){
+        enemyTime.push(0);
+    }
 
     // Enemy cannons group
     eCannonballs = game.add.group();
@@ -179,6 +185,20 @@ function updateMain() {
     }
 
    createEnemy();
+   var start = game.time.now;
+   enemyFleet.forEachAlive( function (eShip) {
+       if (start - enemyTime[enemyFleet.getIndex(eShip)] >= 1000 &&
+            eShip.data.isMoving && !eShip.data.hasFired) {
+        eShip.body.stop();
+        eShip.data.isMoving = false;
+        eShip.data.hasFired = true;
+        eFire(eShip);
+        setTimeout(function(){
+            eShip.angle = game.rnd.integerInRange(0, 180);
+            game.physics.arcade.velocityFromRotation(Phaser.Math.degToRad(eShip.angle), 70, eShip.body.velocity);
+        },1000);
+       }
+   }, this);
 }
 
 function fireCannon() {
@@ -202,19 +222,28 @@ function fireCannon() {
 
 function createEnemy() {
     if (game.time.now > shipDelay && enemyFleet.countLiving() < 5) {
-        shipDelay = game.time.now + 1000;
+        shipDelay = game.time.now + 3000;
         var enemyShip = enemyFleet.getFirstExists(false);
         // if(enemyShip != null){
-            enemyShip.reset(0, 60);
-            enemyShip.body.velocity.x = 100;
+        enemyShip.reset(game.world.randomX, 60);
+        enemyTime[enemyFleet.getIndex(enemyShip)] = game.time.now;
+        enemyShip.body.velocity.x = 100;
+        enemyShip.data.isMoving = true;
+        enemyShip.data.hasFired = false;
+        enemyShip.anchor.setTo(0.5, 0.5);
+        enemyShip.angle = 0;
+            /* enemyShip.body.moveTo(2000, 100, 0);
+            enemyShip.body.onMoveComplete.add( function (eShip) {
+                eFire(eShip);
+            }); */
         // }
-        eFire(enemyShip);
+        //eFire(enemyShip);
     }
 }
 
 function eFire(eShip) {
     var eCBall = eCannonballs.getFirstExists(false);
-    eShip.anchor.setTo(0.5, 0.5);
+    //eShip.anchor.setTo(0.5, 0.5);
     console.log("Enemy cannonball");
     eCBall.reset(eShip.x, eShip.y);
     game.physics.arcade.moveToObject(eCBall, playerShip);
