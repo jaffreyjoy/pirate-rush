@@ -30,7 +30,7 @@
 			health : 50,
 			damage : 20,
 			killPoints : 20,
-			totalEnemies : 12,
+			totalEnemies : 1,
 			spawns : 3,
 			delay : 2000,
 			wait : 700,
@@ -42,7 +42,7 @@
 			health : 100,
 			damage : 30,
 			killPoints : 50,
-			totalEnemies : 20,
+			totalEnemies : 1,
 			spawns : 4,
 			delay : 2000,
 			wait : 1200,
@@ -54,7 +54,7 @@
 			health : 150,
 			damage : 40,
 			killPoints : 80,
-			totalEnemies : 25,
+			totalEnemies : 1,
 			spawns : 2,
 			delay : 3000,
 			wait : 1500,
@@ -81,28 +81,32 @@
 			update: updateMain
 		};
 
+
 		var gameState3 = function() {
-			console.log('Gamestate 3 - End game');
+			console.log('Gamestate 3 - Level End');
 		};
 		gameState3.prototype = {
+			preload: preloadLvl,
+			create: createLvl,
+			update: updateLvl
+		}
+
+		var gameState4 = function() {
+			console.log('Gamestate 4 - End game');
+		};
+		gameState4.prototype = {
 			preload: preloadEnd,
 			create: createEnd,
 			update: updateEnd
 		};
 
-		var gameState4 = function() {
-			console.log('Gamestate 4 - Level End');
-		};
-		gameState4.prototype = {
-			preload: preloadL,
-			create: createL,
-			update: updateL
-		}
+
 
 		game.state.add('Start', gameState1);
 		game.state.add('Main', gameState2);
-		game.state.add('End', gameState3);
-		game.state.add('lvlEnd', gameState4);
+ 		game.state.add('lvlEnd', gameState3);
+		game.state.add('End', gameState4);
+
 
 		game.state.start('Start');
 	</script>

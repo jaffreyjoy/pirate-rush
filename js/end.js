@@ -11,7 +11,7 @@ function preloadEnd() {
 function createEnd() {
     game.add.sprite(0, 0, 'end-page');
     rbutton = game.add.button(game.world.centerX - 160, 400, 'rbutton', restartGame , this, 1, 0);
-    hbutton = game.add.button(rbutton.x + 150, 400, 'hbutton', goToStartPage, this, 1, 0);
+    hbutton = game.add.button(rbutton.x + 150, rbutton.y, 'hbutton', goToStartPage, this, 1, 0);
     scoreText = game.add.bitmapText(game.world.centerX - 220, 300, 'gem', "Your Score : " + gameScore.toString(), 55);
     scoreText.tint = 0xffffff;
 }
@@ -35,6 +35,7 @@ function restartGame() {
 }
 
 function goToStartPage() {
+    level = 0;
     game.state.start('Start');
 }
 

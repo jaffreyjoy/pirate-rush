@@ -196,7 +196,7 @@ function updateMain() {
     }
 
    createEnemy();
-   
+
    var start = game.time.now;
    enemyFleet.forEachAlive( function (eShip) {
        if (start - enemyTime[enemyFleet.getIndex(eShip)] >= 1000 &&
@@ -238,7 +238,7 @@ function createEnemy() {
     if (game.time.now > nextFleet && enemyFleet.countLiving() < enemyFleet.length) {
         nextFleet = game.time.now + enemyProps.delay;
         var enemyShip = enemyFleet.getFirstExists(false);
-        
+
         enemyShip.reset(game.world.randomX, 60);
         enemyTime[enemyFleet.getIndex(enemyShip)] = game.time.now;
         enemyShip.body.velocity.x = 100;
@@ -261,7 +261,7 @@ function eKill(cBall, eShip) {
     var boom = game.add.sprite(cBall.x, cBall.y, 'kaboom');
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode', null, false, true); //(animation_name,frame_rate,loop,killOnComplete_flag)
-    
+
     cBall.kill();
 
     if (eShip.health - 50 <= 0) {
@@ -269,7 +269,7 @@ function eKill(cBall, eShip) {
         gameScore += enemyProps.killPoints;
         scoreText.text = gst + gameScore.toString();
     }
-    eShip.damage(50); 
+    eShip.damage(50);
 }
 
 function damagePlayerShip(playerShip, cBall) {  //collideCallback(sprite, group) always

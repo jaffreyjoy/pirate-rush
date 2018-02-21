@@ -6,7 +6,7 @@ function preloadStart() {
 
 function createStart() {
     game.add.sprite(0, 0, 'start-page');
-    pbutton = game.add.button(game.world.centerX - 58, 400, 'pbutton', actionOnClick, this, 1, 0, 2);
+    pbutton = game.add.button(game.world.centerX - 58, 400, 'pbutton', startGame, this, 1, 0, 2);
 
     pbutton.onInputOver.add(over, this);
     pbutton.onInputOut.add(out, this);
@@ -30,6 +30,6 @@ function updateStart() {
 
 }
 
-function actionOnClick() {
+function startGame() {
     game.state.start('Main');
 }
