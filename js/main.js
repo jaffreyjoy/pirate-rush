@@ -225,7 +225,7 @@ function fireCannon() {
                 cballSpeed,
                 game.input.activePointer,
                 0 );
-            cannonball.events.onKilled.add( function() {
+            cannonball.events.onKilled.addOnce( function() {
                 cannonballsDead++;
             });
             lvlCannons--;
