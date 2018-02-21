@@ -4,7 +4,6 @@ var playerShip;
 var shipCannon;
 var cannonballs;
 var currentSpeed = 0;
-var lvlCannons;
 
 var enemyFleet;
 var enemyTime = [];
@@ -25,18 +24,15 @@ var cursors;
 var wasd;
 
 var enemiesKilled;
+var lvlCannons;
+var hits;
+var lvlStart;
+var lvlEnd;
+var lvlScore;
 var cannonballsDead;
 
 function preloadMain() {
-    lvlCannons = noCannons[level];
-    enemiesKilled = 0;
-    cannonballsDead = 0;
-    if (level === 0)
-        enemyProps = l0;
-    else if (level === 1)
-        enemyProps = l1;
-    else if (level === 2)
-        enemyProps = l2;
+    initializeLevel();
 
     game.load.image('sea', 'assets/sea-tile.png');
     game.load.image('cannon', 'assets/cannonx.png');
@@ -60,9 +56,9 @@ function createMain() {
     game.add.sprite(0, 0, 'sea');
 
     //Add score text
-    scoreText = game.add.bitmapText(535, 570, 'gem', gst+gameScore.toString(), 25);
+    scoreText = game.add.bitmapText(535, 570, 'gem', gst+lvlScore.toString(), 25);
     scoreText.tint = 0x223344;
-    // scoreText.text = gameScore.toString();
+    // scoreText.text = lvlScore.toString();
     //Add canonns left text
     cannonsLeftText = game.add.bitmapText(15, 570, 'gem', nct+lvlCannons.toString(), 25);
     cannonsLeftText.tint = 0x223344;
@@ -135,11 +131,12 @@ function createMain() {
 
 function updateMain() {
     if (cannonballsDead >= noCannons[level] || !playerShip.alive) {
-        // game.state.states['End'].finalScore = gameScore;
+        // game.state.states['End'].finalScore = lvlScore;
         game.state.start('End');
     }
 
     if (enemiesKilled >= enemyProps.totalEnemies) {
+        lvlEnd = game.time.now;
         game.state.start('lvlEnd');
     }
 
@@ -213,6 +210,22 @@ function updateMain() {
    }, this);
 }
 
+function initializeLevel() {
+    lvlCannons = noCannons[level];
+    lvlScore = 0;
+    hits = 0;
+    enemiesKilled = 0;
+    cannonballsDead = 0;
+    lvlStart = game.time.now;
+
+    if (level === 0)
+        enemyProps = l0;
+    else if (level === 1)
+        enemyProps = l1;
+    else if (level === 2)
+        enemyProps = l2;
+}
+
 function fireCannon() {
     if(lvlCannons > 0) {
         if (game.time.now > nextFire && cannonballs.countDead() > 0) {
@@ -263,11 +276,12 @@ function eKill(cBall, eShip) {
     boom.animations.play('explode', null, false, true); //(animation_name,frame_rate,loop,killOnComplete_flag)
 
     cBall.kill();
+    hits++;
 
     if (eShip.health - 50 <= 0) {
         enemiesKilled++;
-        gameScore += enemyProps.killPoints;
-        scoreText.text = gst + gameScore.toString();
+        lvlScore += enemyProps.killPoints;
+        scoreText.text = gst + lvlScore.toString();
     }
     eShip.damage(50);
 }

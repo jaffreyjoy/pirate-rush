@@ -1,13 +1,13 @@
-
-eKilled = 0;
-ekScore = 0;
-accuracy = 0;
-acScore = 0;
-tTaken = 0;
-tTakenScore = 0;
-levelScore = 0;
+var eKilled;
+var ekScore;
+var accuracy;
+var acScore;
+var tTaken;
+var tTakenScore;
+var levelScore;
 
 function preloadLvl() {
+    calcScore();
     game.load.image('lvl-end', 'assets/ui/level-complete-blue.png');
     game.load.spritesheet('hbutton', 'assets/ui/home-buttonx.png', 116, 116, 3);
     game.load.spritesheet('nextLbutton', 'assets/ui/next-level-buttonx.png', 116, 116, 3);
@@ -19,13 +19,13 @@ function createLvl() {
     hbutton = game.add.button(game.world.centerX - 150, 450, 'hbutton', goToStartPage, this, 1, 0);
     nextLbutton = game.add.button(hbutton.x + 150, hbutton.y, 'nextLbutton', startNextLevel, this, 1, 0);
 
-    EnemiesKilledText = game.add.bitmapText(game.world.centerX - 220, game.world.centerY - 130, 'gem', "Enemies killed : "+eKilled+"  ( + "+ekScore+" )", 30);
+    EnemiesKilledText = game.add.bitmapText(game.world.centerX - 240, game.world.centerY - 130, 'gem', "Enemies killed : "+eKilled+" ( + "+ekScore+" )", 30);
     EnemiesKilledText.tint = 0x223344;
 
-    AccuracyText = game.add.bitmapText(EnemiesKilledText.x, EnemiesKilledText.y + 50, 'gem', "Accuracy : " + accuracy + "  ( + " + acScore + " )", 30);
+    AccuracyText = game.add.bitmapText(EnemiesKilledText.x, EnemiesKilledText.y + 50, 'gem', "Accuracy : " + accuracy + "% ( + " + acScore + " )", 30);
     AccuracyText.tint = 0x223344;
 
-    TimeTakenText = game.add.bitmapText(EnemiesKilledText.x, EnemiesKilledText.y + 100, 'gem', "Time Taken : " + tTaken + "  ( + " + tTakenScore + " )", 30);
+    TimeTakenText = game.add.bitmapText(EnemiesKilledText.x, EnemiesKilledText.y + 100, 'gem', "Time Taken : " + tTaken + "s ( + " + tTakenScore + " )", 30);
     TimeTakenText.tint = 0x223344;
 
     LevelScoreText = game.add.bitmapText(EnemiesKilledText.x - 35, EnemiesKilledText.y + 160, 'gem', "Level Score : " + levelScore , 50);
@@ -35,6 +35,18 @@ function createLvl() {
 
 function updateLvl() {
 
+}
+
+function calcScore() {
+    eKilled = enemiesKilled;
+    ekScore = lvlScore;
+    cannonsFired = noCannons[level] - lvlCannons;
+    accuracy = (hits / cannonsFired * 100).toFixed(2);
+    acScore = Math.floor(5000 * accuracy / 100);
+    tTaken = Math.floor((lvlEnd - lvlStart) / 1000);
+    tTakenScore = 5000 - tTaken * 25;
+    levelScore = ekScore + acScore + tTakenScore;
+    gameScore += levelScore;
 }
 
 function up() {

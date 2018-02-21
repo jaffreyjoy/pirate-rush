@@ -29,13 +29,12 @@ function updateEnd() {
 }
 
 function restartGame() {
-    gameScore= 0;
-    noCannons = [20, 45, 90];
+    gameReset();
     game.state.start('Main');
 }
 
 function goToStartPage() {
-    level = 0;
+    gameReset();
     game.state.start('Start');
 }
 
