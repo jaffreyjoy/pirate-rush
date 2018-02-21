@@ -137,7 +137,7 @@ function updateMain() {
 
     if (enemiesKilled >= enemyProps.totalEnemies) {
         lvlEnd = game.time.now;
-        game.state.start('lvlEnd');
+        game.state.start('mapUnlock');
     }
 
     game.physics.arcade.overlap(cannonballs, enemyFleet, eKill, null, this);

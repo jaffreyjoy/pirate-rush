@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="js/start.js"></script>
 	<script type="text/javascript" src="js/end.js"></script>
 	<script type="text/javascript" src="js/lvlend.js"></script>
+	<script type="text/javascript" src="js/unlockMap.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -30,7 +31,7 @@
 			health : 50,
 			damage : 20,
 			killPoints : 20,
-			totalEnemies : 5,
+			totalEnemies : 1,
 			spawns : 3,
 			delay : 2000,
 			wait : 700,
@@ -42,7 +43,7 @@
 			health : 100,
 			damage : 30,
 			killPoints : 50,
-			totalEnemies : 8,
+			totalEnemies : 1,
 			spawns : 4,
 			delay : 2000,
 			wait : 1200,
@@ -54,7 +55,7 @@
 			health : 150,
 			damage : 40,
 			killPoints : 80,
-			totalEnemies : 10,
+			totalEnemies : 1,
 			spawns : 2,
 			delay : 3000,
 			wait : 1500,
@@ -83,18 +84,27 @@
 
 
 		var gameState3 = function() {
-			console.log('Gamestate 3 - Level End');
+			console.log('Gamestate 3 - Map Unlock');
 		};
 		gameState3.prototype = {
+			preload: preloadMap,
+			create: createMap,
+			update: updateMap
+		}
+
+		var gameState4 = function() {
+			console.log('Gamestate 4 - Level End');
+		};
+		gameState4.prototype = {
 			preload: preloadLvl,
 			create: createLvl,
 			update: updateLvl
 		}
 
-		var gameState4 = function() {
-			console.log('Gamestate 4 - End game');
+		var gameState5 = function() {
+			console.log('Gamestate 5 - End game');
 		};
-		gameState4.prototype = {
+		gameState5.prototype = {
 			preload: preloadEnd,
 			create: createEnd,
 			update: updateEnd
@@ -102,8 +112,9 @@
 
 		game.state.add('Start', gameState1);
 		game.state.add('Main', gameState2);
- 		game.state.add('lvlEnd', gameState3);
-		game.state.add('End', gameState4);
+ 		game.state.add('mapUnlock', gameState3);
+ 		game.state.add('lvlEnd', gameState4);
+		game.state.add('End', gameState5);
 
 		gameReset();
 		game.state.start('Start');
