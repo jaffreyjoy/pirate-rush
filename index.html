@@ -24,10 +24,12 @@
 
 		var gameScore = 0;
 		var noCannons = [20, 45, 90];
-		var level = 1;
+		var level = 0;
 
 		var l0 = {
 			health : 50,
+			damage : 20,
+			killPoints : 20,
 			totalEnemies : 12,
 			spawns : 3,
 			delay : 2000,
@@ -38,16 +40,20 @@
 
 		var l1 = {
 			health : 100,
+			damage : 30,
+			killPoints : 50,
 			totalEnemies : 20,
-			spawns : 2,
+			spawns : 4,
 			delay : 2000,
 			wait : 1200,
 			canons : 2,
-			sprites : ['ship10', 'ship11']
+			sprites : ['ship1']
 		}
 
 		var l2 = {
 			health : 150,
+			damage : 40,
+			killPoints : 80,
 			totalEnemies : 25,
 			spawns : 2,
 			delay : 3000,
