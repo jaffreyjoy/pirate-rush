@@ -64,7 +64,7 @@ function preloadLeadB() {
 }
 
 function createLeadB() {
-    gameScore += lvlScore;
+    //gameScore += lvlScore;
     game.add.sprite(0, 0, 'leaderboard');
     prevButton = game.add.button(10, game.world.centerY -30, 'prevButton', goBack, this, 1, 0);
     prevButton.scale.setTo(0.7,0.7);

@@ -50,7 +50,7 @@ function preloadMain() {
     game.load.spritesheet('ship21', 'assets/ship_21r.png');
     game.load.spritesheet('ship22', 'assets/ship_22r.png');
     game.load.spritesheet('shipx', 'assets/shipx.png');
-    game.load.spritesheet('mapDrop', 'assets/map_drop.png');
+    game.load.spritesheet('mapDrop', 'assets/t_map.png');
     game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
     game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
     // game.load.bitmapFont('zilla-slab', 'assets/fonts/zilla-slab/zilla-slab.png', 'assets/fonts/zilla-slab/zilla-slab.fnt');
@@ -156,6 +156,7 @@ function createMain() {
 function updateMain() {
     if ( (cannonballsDead >= noCannons[level] && !map.data.hasDropped) || !playerShip.alive) {
         // game.state.states['End'].finalScore = lvlScore;
+        gameScore += lvlScore;
         game.state.start('End');
     }
 

@@ -6,7 +6,7 @@ function preloadEnd() {
 }
 
 function createEnd() {
-    gameScore += lvlScore;
+    //gameScore += lvlScore;
     game.add.sprite(0, 0, 'end-page');
     rbutton = game.add.button(game.world.centerX - 160, 400, 'rbutton', restartGame , this, 1, 0);
     hbutton = game.add.button(rbutton.x + 150, rbutton.y, 'hbutton', goToStartPage, this, 1, 0);
