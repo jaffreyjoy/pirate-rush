@@ -1,3 +1,5 @@
+var socket = io();
+
 function preloadEnd() {
     game.load.image('end-page', 'assets/ui/end-page.png');
     game.load.spritesheet('rbutton', 'assets/ui/restart-buttonx.png', 116, 116, 2);
@@ -12,6 +14,7 @@ function createEnd() {
     hbutton = game.add.button(rbutton.x + 150, rbutton.y, 'hbutton', goToStartPage, this, 1, 0);
     scoreText = game.add.bitmapText(game.world.centerX - 220, 300, 'gem', "Your Score : " + gameScore.toString(), 55);
     scoreText.tint = 0xffffff;
+    socket.emit("sendScore", gameScore);
 }
 
 function over() {

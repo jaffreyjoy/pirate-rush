@@ -1,9 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
 	<title>Pirate Rush</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>
 	<script type="text/javascript" src="js/end.js"></script>
@@ -27,6 +28,29 @@
 		var gameScore;
 		var noCannons;
 		var level;
+
+		var data = [
+			{
+				name : "lol_code",
+				score: 5
+			},
+			{
+				name : "marcos",
+				score: 0
+			},
+			{
+				name : "Chote Bheem",
+				score: 0
+			},
+			{
+				name : "DC Masters",
+				score: 0
+			},
+			{
+				name : "O(1)",
+				score: 0
+			},
+		]
 
 		var l0 = {
 			health : 50,

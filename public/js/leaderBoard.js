@@ -1,25 +1,4 @@
-var data = [
-    {
-        name : "lol_code",
-        score: 5
-    },
-    {
-        name : "marcos",
-        score: 0
-    },
-    {
-        name : "Chote Bheem",
-        score: 0
-    },
-    {
-        name : "DC Masters",
-        score: 0
-    },
-    {
-        name : "O(1)",
-        score: 0
-    },
-]
+var socket = io();
 
 var coord = [
     {
@@ -73,12 +52,25 @@ function createLeadB() {
 
     var score;
 
-    for (let i = 0; i < 5; i++) {
-        name = game.add.bitmapText(coord[i].nx, coord[i].ny, 'zilla-slab', data[i].name, 30);
-        name.tint = 0x223344;
-        score = game.add.bitmapText(coord[i].sx, coord[i].sy, 'zilla-slab', data[i].score.toString(), 30);
-        score.tint = 0x223344;
-    }
+    socket.emit('getHighScore');
+    socket.on('sendHighScore', function (dataRes) {
+        console.log(dataRes);
+        if (dataRes.length == 5) {
+            data = dataRes;
+        }
+        else {
+            for (var i = 0; i < dataRes.length; i++) {
+                data[i] = dataRes[i];
+            }
+        }
+        for (let i = 0; i < 5; i++) {
+            name = game.add.bitmapText(coord[i].nx, coord[i].ny, 'zilla-slab', data[i].name, 30);
+            name.tint = 0x223344;
+            score = game.add.bitmapText(coord[i].sx, coord[i].sy, 'zilla-slab', data[i].score.toString(), 30);
+            score.tint = 0x223344;
+        }
+    })
+
 
     // firstName = game.add.bitmapText(game.world.centerX - 220, 300, 'gem', "Your Score : " + gameScore.toString(), 55);
     // firstName.tint = 0x223344;

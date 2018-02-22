@@ -1,3 +1,5 @@
+var socket = io();
+
 var eKilled;
 var ekScore;
 var accuracy;
@@ -50,6 +52,7 @@ function calcScore() {
     tTakenScore = 5000 - tTaken * 25;
     levelScore = ekScore + acScore + tTakenScore;
     gameScore += levelScore;
+    socket.emit("sendScore", gameScore);
 }
 
 function up() {
