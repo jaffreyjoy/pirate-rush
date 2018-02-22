@@ -278,7 +278,7 @@ function createEnemy() {
         nextFleet = game.time.now + enemyProps.delay;
         var enemyShip = enemyFleet.getFirstExists(false);
 
-        enemyShip.reset(game.world.randomX, 60);
+        enemyShip.reset(game.rnd.integerInRange(10, 500), game.rnd.integerInRange(30, 150));
         enemyTime[enemyFleet.getIndex(enemyShip)] = game.time.now;
         enemyShip.body.velocity.x = 100;
         enemyShip.data.isMoving = true;
