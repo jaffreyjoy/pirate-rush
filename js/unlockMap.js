@@ -23,9 +23,6 @@ function createMap() {
     setTimeout(function(){
         animateMap();
     },100);
-
-
-
 }
 
 function updateMap() {
