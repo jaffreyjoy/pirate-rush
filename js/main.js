@@ -114,6 +114,8 @@ function createMain() {
     eCannonballs.enableBody = true;
     eCannonballs.physicsBodyType = Phaser.Physics.ARCADE;
     eCannonballs.createMultiple(40, 'cannonball');
+    eCannonballs.setAll('anchor.x', 0.5);
+    eCannonballs.setAll('anchor.y', 0.5);
     eCannonballs.setAll('outOfBoundsKill', true);
     eCannonballs.setAll('checkWorldBounds', true);
 
@@ -201,7 +203,7 @@ function updateMain() {
         eShip.body.stop();
         eShip.data.isMoving = false;
         eShip.data.hasFired = true;
-        eFire(eShip);
+        eFire(eShip, enemyProps.cannons);
         setTimeout( function() {
             eShip.angle = game.rnd.integerInRange(0, 180);
             game.physics.arcade.velocityFromRotation(Phaser.Math.degToRad(eShip.angle), 70, eShip.body.velocity);
@@ -263,11 +265,19 @@ function createEnemy() {
     }
 }
 
-function eFire(eShip) {
-    var eCBall = eCannonballs.getFirstExists(false);
+function eFire(eShip, multishots) {
     console.log("Enemy cannonball");
-    eCBall.reset(eShip.x, eShip.y);
-    game.physics.arcade.moveToObject(eCBall, playerShip, 200);
+    target = [
+        { x : playerShip.x, y : playerShip.y },
+        { x : playerShip.x - 50, y : playerShip.y + 50},
+        { x : playerShip.x + 50, y : playerShip.y - 50}
+    ];
+    for ( i = 0; i < multishots; i++) {
+        var eCBall = eCannonballs.getFirstExists(false);
+        eCBall.reset(eShip.x, eShip.y);
+        game.physics.arcade.moveToXY(eCBall, target[0].x, target[0].y, 200);
+    }
+    
 }
 
 function eKill(cBall, eShip) {
