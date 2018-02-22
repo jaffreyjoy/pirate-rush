@@ -5,6 +5,9 @@ function preloadStart() {
 }
 
 function createStart() {
+    game.scale.pageAlignHorizontally = true;
+    game.scale.pageAlignVertically = true;
+
     game.add.sprite(0, 0, 'start-page');
     pbutton = game.add.button(game.world.centerX - 58, 400, 'pbutton', startGame, this, 1, 0, 2);
 

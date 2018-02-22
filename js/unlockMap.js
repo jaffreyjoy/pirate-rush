@@ -24,7 +24,7 @@ function createMap() {
         animateMap();
     },100);
 
-    nextButton = game.add.button(game.world.centerX - 58, 470, 'nextButton', goToLevelEnd, this, 1, 0);
+
 
 }
 
@@ -51,11 +51,19 @@ function out() {
 function animateMap(){
     tween = game.add.tween(lMap.scale).to({ x: 0.7, y: 0.7 }, 1000, Phaser.Easing.Elastic.Out, true);
     setTimeout(function () {
+        tween = game.add.tween(lMap.scale).to({ x: 0.5, y: 0.5 }, 1000, Phaser.Easing.Elastic.Out, true);
         lMap.frame = 1;
         setTimeout(function () {
+            tween = game.add.tween(lMap.scale).to({ x: 0.7, y: 0.7 }, 1000, Phaser.Easing.Elastic.Out, true);
             lMap.frame = 2;
+            nextButton = game.add.button(game.world.centerX , 530, 'nextButton', goToLevelEnd, this, 1, 0);
+            nextButton.anchor.setTo(0.5,0.5);
+            nextButton.scale.setTo(0, 0);
+            setTimeout(function () {
+                tween = game.add.tween(nextButton.scale).to({ x: 0.8, y: 0.8 }, 1000, Phaser.Easing.Elastic.Out, true);
+            }, 1000);
         }, 1200);
-    }, 500);
+    }, 800);
 }
 
 function goToLevelEnd() {
