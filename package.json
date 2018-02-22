@@ -1,0 +1,27 @@
+{
+  "name": "teknack-reference-game",
+  "version": "1.0.0",
+  "description": "This repository is for reference while making your game",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "client-sessions": "^0.8.0",
+    "express": "^4.15.5",
+    "mongodb": "^2.2.31",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/vineeth22/teknack-reference-game.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/vineeth22/teknack-reference-game/issues"
+  },
+  "homepage": "https://gitlab.com/vineeth22/teknack-reference-game#README"
+}
