@@ -11,7 +11,7 @@ function createStart() {
 
     game.add.sprite(0, 0, 'start-page');
     pbutton = game.add.button(game.world.centerX - 130, 400, 'pbutton', startGame, this, 1, 0, 2);
-    lbutton = game.add.button(pbutton.x + 200, 400, 'lbutton', goToLeaderBoard, this, 1, 0, 2);
+    lbutton = game.add.button(pbutton.x + 200, 400, 'lbutton', goToLeaderBoard, this, 1, 0);
 
     pbutton.onInputOver.add(over, this);
     pbutton.onInputOut.add(out, this);
