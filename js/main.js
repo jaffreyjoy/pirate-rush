@@ -152,7 +152,7 @@ function createMain() {
 }
 
 function updateMain() {
-    if (cannonballsDead >= noCannons[level] || !playerShip.alive) {
+    if ( (cannonballsDead >= noCannons[level] && !map.data.hasDropped) || !playerShip.alive) {
         // game.state.states['End'].finalScore = lvlScore;
         game.state.start('End');
     }
