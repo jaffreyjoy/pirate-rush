@@ -52,6 +52,8 @@ function preloadMain() {
     game.load.spritesheet('shipx', 'assets/shipx.png');
     game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
     game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
+    // game.load.bitmapFont('zilla-slab', 'assets/fonts/zilla-slab/zilla-slab.png', 'assets/fonts/zilla-slab/zilla-slab.fnt');
+
 }
 
 function createMain() {
@@ -135,7 +137,7 @@ function createMain() {
 
     heartLogo = game.add.sprite(12, 550, 'heartLogo');
     heartLogo.scale.setTo(0.15, 0.15);
-    LifeText = game.add.bitmapText(heartLogo.x + 50, heartLogo.y, 'gem', playerShip.health.toString(), 30);
+    LifeText = game.add.bitmapText(heartLogo.x + 50, heartLogo.y, 'gem', playerShip.health.toString(), 30 );
     LifeText.tint = 0x223344;
 
     cannonLogo = game.add.sprite(LifeText.x + 80, heartLogo.y, 'cannonLogo');

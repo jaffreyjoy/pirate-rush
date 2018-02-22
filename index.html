@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="js/end.js"></script>
 	<script type="text/javascript" src="js/lvlend.js"></script>
 	<script type="text/javascript" src="js/unlockMap.js"></script>
+	<script type="text/javascript" src="js/leaderBoard.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -110,11 +111,22 @@
 			update: updateEnd
 		};
 
+		var gameState6 = function() {
+			console.log('Gamestate 6 - Leaderboard');
+		};
+		gameState6.prototype = {
+			preload: preloadLeadB,
+			create: createLeadB,
+			update: updateLeadB
+		};
+
+
 		game.state.add('Start', gameState1);
 		game.state.add('Main', gameState2);
  		game.state.add('mapUnlock', gameState3);
  		game.state.add('lvlEnd', gameState4);
 		game.state.add('End', gameState5);
+		game.state.add('leaderBoard', gameState6);
 
 		gameReset();
 		game.state.start('Start');
