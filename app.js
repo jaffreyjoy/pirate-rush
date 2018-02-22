@@ -4,6 +4,8 @@ const server = require('http').Server(app);
 const io = require('socket.io').listen(server);
 const db = require('./modules/db.js');
 
+const port = 3004;
+
 /*
 Copy the following session code
 This code takes the username if the session is not set and sets the session
@@ -63,7 +65,7 @@ app.use(function (req, res, next) {
             xhttp.open("POST", "/setSession", true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send("username=" + username);
-    
+
         }
     </script>`;
         if (environment == "development") {
@@ -86,14 +88,14 @@ io.use(function (socket, next) {
 });
 
 //********************************************************************//
-// Your code starts from here 
+// Your code starts from here
 
 app.use(express.static(__dirname + '/public'));
 
 io.on('connection', function (socket) {
 
     socket.on('test', function () {
-        var username = socket.request.sess.username;   // accessing username inside sockets 
+        var username = socket.request.sess.username;   // accessing username inside sockets
         console.log(username + " connected");
         console.log('test received');
     });
@@ -114,6 +116,6 @@ io.on('connection', function (socket) {
 });
 
 
-server.listen(3000, function () {
-    console.log('App listening on port 3000!')
+server.listen(port, function () {
+    console.log('App listening on port '+port.toString()+'!')
 })
