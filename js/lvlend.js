@@ -41,7 +41,10 @@ function calcScore() {
     eKilled = enemiesKilled;
     ekScore = lvlScore;
     cannonsFired = noCannons[level] - lvlCannons;
-    accuracy = (hits / cannonsFired * 100).toFixed(2);
+    if (cannonsFired) 
+        accuracy = (hits / cannonsFired * 100).toFixed(2);
+    else
+        accuracy = 0;
     acScore = Math.floor(5000 * accuracy / 100);
     tTaken = Math.floor((lvlEnd - lvlStart) / 1000);
     tTakenScore = 5000 - tTaken * 25;
@@ -66,6 +69,10 @@ function out() {
 
 function startNextLevel() {
     level += 1;
-    game.state.start('Main');
+    if ( level > 2) {
+        game.state.start('End');
+    }
+    else
+        game.state.start('Main');
 }
 

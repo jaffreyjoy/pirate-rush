@@ -1,6 +1,3 @@
-
-// var finalScore = 0;
-
 function preloadEnd() {
     game.load.image('end-page', 'assets/ui/end-page.png');
     game.load.spritesheet('rbutton', 'assets/ui/restart-buttonx.png', 116, 116, 2);
@@ -9,6 +6,7 @@ function preloadEnd() {
 }
 
 function createEnd() {
+    gameScore += lvlScore;
     game.add.sprite(0, 0, 'end-page');
     rbutton = game.add.button(game.world.centerX - 160, 400, 'rbutton', restartGame , this, 1, 0);
     hbutton = game.add.button(rbutton.x + 150, rbutton.y, 'hbutton', goToStartPage, this, 1, 0);

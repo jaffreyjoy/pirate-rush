@@ -9,7 +9,7 @@ var enemyFleet;
 var enemyTime = [];
 var eCannonballs;
 var enemyProps;
-var nextFleet = 2000;
+var nextFleet = 5000;
 
 // Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
 var fireDelay = 300;
@@ -275,7 +275,7 @@ function eFire(eShip, multishots) {
     for ( i = 0; i < multishots; i++) {
         var eCBall = eCannonballs.getFirstExists(false);
         eCBall.reset(eShip.x, eShip.y);
-        game.physics.arcade.moveToXY(eCBall, target[0].x, target[0].y, 200);
+        game.physics.arcade.moveToXY(eCBall, target[i].x, target[i].y, 200);
     }
     
 }
