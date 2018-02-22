@@ -9,7 +9,7 @@ var enemyFleet;
 var enemyTime = [];
 var eCannonballs;
 var enemyProps;
-var nextFleet = 5000;
+var nextFleet = 3000;
 
 // Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
 var fireDelay = 300;
@@ -281,7 +281,9 @@ function eFire(eShip, multishots) {
 }
 
 function eKill(cBall, eShip) {
-    var boom = game.add.sprite(cBall.x, cBall.y, 'kaboom');
+    var boom = game.add.sprite(0, 0, 'kaboom');
+    boom.anchor.setTo(0.5, 0.5);
+    boom.reset(eShip.x, eShip.y);
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode', null, false, true); //(animation_name,frame_rate,loop,killOnComplete_flag)
 
@@ -297,7 +299,9 @@ function eKill(cBall, eShip) {
 }
 
 function damagePlayerShip(playerShip, cBall) {  //collideCallback(sprite, group) always
-    var boom = game.add.sprite(cBall.x, cBall.y, 'kaboom');
+    var boom = game.add.sprite(0, 0, 'kaboom');
+    boom.anchor.setTo(0.5, 0.5);
+    boom.reset(cBall.x, cBall.y);
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode', null, false, true);
     cBall.kill();
@@ -307,7 +311,9 @@ function damagePlayerShip(playerShip, cBall) {  //collideCallback(sprite, group)
 }
 
 function ramShip(playerShip, eShip) {
-    var boom = game.add.sprite(playerShip.x, playerShip.y, 'kaboom');
+    var boom = game.add.sprite(0, 0, 'kaboom');
+    boom.anchor.setTo(0.5, 0.5);
+    boom.reset(playerShip.x, playerShip.y);
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode', null, false, true);
     eShip.kill();
