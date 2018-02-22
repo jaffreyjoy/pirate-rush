@@ -31,12 +31,17 @@ var lvlEnd;
 var lvlScore;
 var cannonballsDead;
 
+var heartLogo;
+var cannonLogo;
+
 function preloadMain() {
     initializeLevel();
 
     game.load.image('sea', 'assets/sea-tile.png');
     game.load.image('cannon', 'assets/cannonx.png');
     game.load.image('cannonball', 'assets/cannonballx.png');
+    game.load.image('heartLogo', 'assets/ui/heartLogo.png');
+    game.load.image('cannonLogo', 'assets/ui/cannonLogo.png');
     game.load.spritesheet('ship0', 'assets/ship_0.png');
     game.load.spritesheet('ship1', 'assets/ship_1.png');
     //game.load.spritesheet('ship10', 'assets/ship_10r.png');
@@ -56,12 +61,11 @@ function createMain() {
     game.add.sprite(0, 0, 'sea');
 
     //Add score text
-    scoreText = game.add.bitmapText(535, 570, 'gem', gst+lvlScore.toString(), 25);
-    scoreText.tint = 0x223344;
+    // scoreText = game.add.bitmapText(535, 570, 'gem', gst+lvlScore.toString(), 25);
+    // scoreText.tint = 0x223344;
     // scoreText.text = lvlScore.toString();
     //Add canonns left text
-    cannonsLeftText = game.add.bitmapText(15, 570, 'gem', nct+lvlCannons.toString(), 25);
-    cannonsLeftText.tint = 0x223344;
+
     // cannonsLeftText.text = lvlCannons.toString();
 
     // Player ship and its properties
@@ -129,6 +133,15 @@ function createMain() {
         right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     };
 
+    heartLogo = game.add.sprite(12, 550, 'heartLogo');
+    heartLogo.scale.setTo(0.15, 0.15);
+    LifeText = game.add.bitmapText(heartLogo.x + 50, heartLogo.y, 'gem', playerShip.health.toString(), 30);
+    LifeText.tint = 0x223344;
+
+    cannonLogo = game.add.sprite(LifeText.x + 80, heartLogo.y, 'cannonLogo');
+    cannonLogo.scale.setTo(0.15, 0.15);
+    cannonsLeftText = game.add.bitmapText(cannonLogo.x + 50, heartLogo.y, 'gem', lvlCannons.toString(), 30);
+    cannonsLeftText.tint = 0x223344;
 }
 
 function updateMain() {
@@ -141,6 +154,8 @@ function updateMain() {
         lvlEnd = game.time.now;
         game.state.start('mapUnlock');
     }
+
+    LifeText.text = playerShip.health.toString();
 
     game.physics.arcade.overlap(cannonballs, enemyFleet, eKill, null, this);
     game.physics.arcade.collide(playerShip, eCannonballs, damagePlayerShip, null, this);
@@ -244,7 +259,7 @@ function fireCannon() {
                 cannonballsDead++;
             });
             lvlCannons--;
-            cannonsLeftText.text = nct+lvlCannons.toString();
+            cannonsLeftText.text = lvlCannons.toString();
         }
     }
 }
@@ -277,7 +292,7 @@ function eFire(eShip, multishots) {
         eCBall.reset(eShip.x, eShip.y);
         game.physics.arcade.moveToXY(eCBall, target[i].x, target[i].y, 200);
     }
-    
+
 }
 
 function eKill(cBall, eShip) {
@@ -293,7 +308,7 @@ function eKill(cBall, eShip) {
     if (eShip.health - 50 <= 0) {
         enemiesKilled++;
         lvlScore += enemyProps.killPoints;
-        scoreText.text = gst + lvlScore.toString();
+        // scoreText.text = gst + lvlScore.toString();
     }
     eShip.damage(50);
 }

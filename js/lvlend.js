@@ -19,7 +19,7 @@ function createLvl() {
     hbutton = game.add.button(game.world.centerX - 150, 450, 'hbutton', goToStartPage, this, 1, 0);
     nextLbutton = game.add.button(hbutton.x + 150, hbutton.y, 'nextLbutton', startNextLevel, this, 1, 0);
 
-    EnemiesKilledText = game.add.bitmapText(game.world.centerX - 240, game.world.centerY - 130, 'gem', "Enemies killed : "+eKilled+" ( + "+ekScore+" )", 30);
+    EnemiesKilledText = game.add.bitmapText(game.world.centerX - 300, game.world.centerY - 130, 'gem', "Enemies killed : "+eKilled+" ( + "+ekScore+" )", 30);
     EnemiesKilledText.tint = 0x223344;
 
     AccuracyText = game.add.bitmapText(EnemiesKilledText.x, EnemiesKilledText.y + 50, 'gem', "Accuracy : " + accuracy + "% ( + " + acScore + " )", 30);
@@ -41,7 +41,7 @@ function calcScore() {
     eKilled = enemiesKilled;
     ekScore = lvlScore;
     cannonsFired = noCannons[level] - lvlCannons;
-    if (cannonsFired) 
+    if (cannonsFired)
         accuracy = (hits / cannonsFired * 100).toFixed(2);
     else
         accuracy = 0;
