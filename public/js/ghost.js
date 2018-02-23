@@ -30,7 +30,6 @@ function createGhost() {
 
     game.add.sprite(0, 0, 'sea');
 
-    // Player ship and its properties
     playerShip = game.add.sprite(400, 520, 'shipx');
     playerShip.scale.setTo(0.8, 0.8);
     playerShip.anchor.setTo(0.5, 0.5);
@@ -39,13 +38,10 @@ function createGhost() {
     playerShip.maxHealth = 100;
     playerShip.health = playerShip.maxHealth;
 
-    // ship Cannon and its properties
     shipCannon = game.add.sprite(400, 550, 'cannon');
     shipCannon.scale.setTo(0.8, 0.8);
-    //anchor for rotation performed in update function
     shipCannon.anchor.setTo(0.5, 0.8);
 
-    //  Our cannons group
     cannonballs = game.add.group();
     cannonballs.enableBody = true;
     cannonballs.physicsBodyType = Phaser.Physics.ARCADE;
@@ -55,7 +51,6 @@ function createGhost() {
     cannonballs.setAll('outOfBoundsKill', true);
     cannonballs.setAll('checkWorldBounds', true);
 
-    // The big boss
     ghost = game.add.sprite(400, -120, 'ghost');
     ghost.scale.setTo(2.2, 2.2);
     ghost.anchor.setTo(0.5, 0.5);
@@ -73,7 +68,6 @@ function createGhost() {
     });
     enterBoss();
 
-    // The bomber ships
     bombFleet = game.add.group();
     bombFleet.enableBody = true;
     bombFleet.physicsBodyType = Phaser.Physics.ARCADE;
@@ -85,7 +79,6 @@ function createGhost() {
     bombFleet.setAll('outOfBoundsKill', true);
     bombFleet.setAll('checkWorldBounds', true);
 
-    // Enemy cannons group
     eCannonballs = game.add.group();
     eCannonballs.enableBody = true;
     eCannonballs.physicsBodyType = Phaser.Physics.ARCADE;
@@ -95,9 +88,7 @@ function createGhost() {
     eCannonballs.setAll('outOfBoundsKill', true);
     eCannonballs.setAll('checkWorldBounds', true);
 
-    // Add cursor controls
     cursors = game.input.keyboard.createCursorKeys();
-    // Add WASD controls
     wasd = {
         up: game.input.keyboard.addKey(Phaser.Keyboard.W),
         down: game.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -105,7 +96,6 @@ function createGhost() {
         right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     };
 
-    // The map drop sprite
     map = game.add.sprite(0, 0, 'mapDrop');
     map.visible = false;
     map.exists = false;
@@ -126,7 +116,6 @@ function createGhost() {
 
 function updateGhost() {
     if ( (cannonballsDead >= noCannons[level] && !map.data.hasDropped) || !playerShip.alive) {
-        // game.state.states['End'].finalScore = lvlScore;
         gameScore += lvlScore;
         game.state.start('End');
     }
@@ -140,39 +129,28 @@ function updateGhost() {
     game.physics.arcade.collide(playerShip, bombFleet, bomberHit, null, this);
     game.physics.arcade.overlap(ghost, cannonballs, ghostHit, null, this);
 
-    // Reset player ship velocity
     playerShip.body.velocity.x = 0;
     playerShip.body.velocity.y = 0;
 
-    //set position of cannon sprite to the front of the ship deck
+
     shipCannon.x = playerShip.x;
     shipCannon.y = playerShip.y;
 
-    //change cannon rotation based on mouse pointer
-    //(1.6 offset added as the vertical side of the img was pointing to the mouse pointer (if not added))
     shipCannon.rotation = game.physics.arcade.angleToPointer(shipCannon) + 1.6;
 
     if (ghost.data.entryComplete) {
-        // Rotation of player ship
         if (cursors.left.isDown || wasd.left.isDown) {
-            //Move left
             playerShip.angle -= 5;
-            // playerShip.animations.play('move');
+
         }
         else if (cursors.right.isDown || wasd.right.isDown) {
-            //Move right
             playerShip.angle += 5;
-            // playerShip.animations.play('move');
         }
 
-        // Movement of player ship
         if (cursors.up.isDown || wasd.up.isDown) {
-            //Move up
             currentSpeed = 150;
-            // playerShip.body.velocity.y = -150;
         }
-        else {
-            //Stop motion
+        else { 
             if (currentSpeed > 0) {
                 currentSpeed -= 5;
             }
@@ -230,7 +208,6 @@ function fireCannon() {
         if (game.time.now > nextFire && cannonballs.countDead() > 0) {
             nextFire = game.time.now + fireDelay;
             var cannonball = cannonballs.getFirstExists(false);
-            console.log("cannonballDead: ", cannonballsDead);
             cannonball.reset(shipCannon.x, shipCannon.y);
             cannonball.rotation = game.physics.arcade.moveToPointer(
                 cannonball,
@@ -377,6 +354,4 @@ function tillDeath() {
     dropStatus = 0;
     mapDropped = false;
     lvlStart = game.time.now;
-
-    console.log('Level: ', level, ' G7 - Bosssssssss');
 }

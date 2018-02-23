@@ -18,11 +18,9 @@ function createEnd() {
 }
 
 function over() {
-    console.log('button over');
 }
 
 function out() {
-    console.log('button out');
 }
 
 function updateEnd() {

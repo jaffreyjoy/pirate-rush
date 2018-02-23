@@ -43,7 +43,6 @@ function preloadLeadB() {
 }
 
 function createLeadB() {
-    //gameScore += lvlScore;
     game.add.sprite(0, 0, 'leaderboard');
     prevButton = game.add.button(10, game.world.centerY -30, 'prevButton', goBack, this, 1, 0);
     prevButton.scale.setTo(0.7,0.7);
@@ -54,7 +53,6 @@ function createLeadB() {
 
     socket.emit('getHighScore');
     socket.on('sendHighScore', function (dataRes) {
-        console.log(dataRes);
         if (dataRes.length == 5) {
             data = dataRes;
         }
@@ -97,11 +95,11 @@ function createLeadB() {
 }
 
 function over() {
-    console.log('button over');
+
 }
 
 function out() {
-    console.log('button out');
+
 }
 
 function updateLeadB() {

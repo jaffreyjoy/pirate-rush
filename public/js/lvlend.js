@@ -56,19 +56,16 @@ function calcScore() {
 }
 
 function up() {
-    console.log('button up', arguments);
+
 }
 
 function over() {
-    console.log('button over');
+
 }
 
 function out() {
-    console.log('button out');
+
 }
-
-
-// goTostartPage present in end.js
 
 function startNextLevel() {
     level += 1;
