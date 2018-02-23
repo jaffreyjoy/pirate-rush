@@ -230,7 +230,7 @@ function updateMain() {
         setTimeout( function() {
             eShip.angle = game.rnd.integerInRange(0, 180);
             game.physics.arcade.velocityFromRotation(Phaser.Math.degToRad(eShip.angle), 70, eShip.body.velocity);
-        },enemyProps.wait);
+        }, enemyProps.wait);
        }
    }, this);
 }
