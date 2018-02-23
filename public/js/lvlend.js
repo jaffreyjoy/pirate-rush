@@ -73,7 +73,7 @@ function out() {
 function startNextLevel() {
     level += 1;
     if ( level > 2) {
-        game.state.start('End');
+        game.state.start('Ghost');
     }
     else
         game.state.start('Main');
