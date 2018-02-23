@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="js/lvlend.js"></script>
 	<script type="text/javascript" src="js/unlockMap.js"></script>
 	<script type="text/javascript" src="js/leaderBoard.js"></script>
+	<script type="text/javascript" src="js/instructions.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -149,6 +150,15 @@
 			update: updateLeadB
 		};
 
+		var gameState7 = function() {
+			console.log('Gamestate 7 - Instructions');
+		};
+		gameState7.prototype = {
+			preload: preloadInst,
+			create: createInst,
+			update: updateInst
+		};
+
 
 		game.state.add('Start', gameState1);
 		game.state.add('Main', gameState2);
@@ -156,6 +166,7 @@
  		game.state.add('lvlEnd', gameState4);
 		game.state.add('End', gameState5);
 		game.state.add('leaderBoard', gameState6);
+		game.state.add('instructions', gameState7);
 
 		gameReset();
 		game.state.start('Start');
