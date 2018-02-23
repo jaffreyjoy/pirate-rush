@@ -12,7 +12,7 @@ var enemyProps;
 var nextFleet = 3000;
 
 // Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
-var fireDelay = 300;
+var fireDelay = 800;
 var cballSpeed = 500;
 var nextFire = 0;
 
