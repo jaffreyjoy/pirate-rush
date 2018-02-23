@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="js/lvlend.js"></script>
 	<script type="text/javascript" src="js/unlockMap.js"></script>
 	<script type="text/javascript" src="js/leaderBoard.js"></script>
+	<script type="text/javascript" src="js/ghost.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -149,6 +150,15 @@
 			update: updateLeadB
 		};
 
+		var gameState7 = function() {
+			console.log('G7 - Bosssssssss');
+		};
+		gameState7.prototype = {
+			preload: preloadGhost,
+			create: createGhost,
+			update: updateGhost
+		}
+
 
 		game.state.add('Start', gameState1);
 		game.state.add('Main', gameState2);
@@ -156,13 +166,14 @@
  		game.state.add('lvlEnd', gameState4);
 		game.state.add('End', gameState5);
 		game.state.add('leaderBoard', gameState6);
+		game.state.add('Ghost', gameState7);
 
 		gameReset();
 		game.state.start('Start');
 
 		function gameReset() {
 			gameScore= 0;
-			noCannons = [20, 45, 90];
+			noCannons = [20, 45, 75, 30];
 			level = 0;
 		}
 	</script>
