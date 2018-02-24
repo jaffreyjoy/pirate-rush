@@ -22,15 +22,15 @@ function createStart() {
 }
 
 function up() {
-    
+
 }
 
 function over() {
-    
+
 }
 
 function out() {
-    
+
 }
 
 
@@ -47,5 +47,6 @@ function startGame() {
 }
 
 function goToLeaderBoard() {
+    prevState = "Start";
     game.state.start('leaderBoard');
 }

@@ -44,7 +44,7 @@ function preloadLeadB() {
 
 function createLeadB() {
     game.add.sprite(0, 0, 'leaderboard');
-    prevButton = game.add.button(10, game.world.centerY -30, 'prevButton', goBack, this, 1, 0);
+    prevButton = game.add.button(10, game.world.centerY -30, 'prevButton', goBackFromLB, this, 1, 0);
     prevButton.scale.setTo(0.7,0.7);
 
     var name;
@@ -106,7 +106,7 @@ function updateLeadB() {
 
 }
 
-function goBack() {
-    game.state.start('Start');
+function goBackFromLB() {
+    game.state.start(prevState);
 }
 

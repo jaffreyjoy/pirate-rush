@@ -9,10 +9,13 @@
 	<script type="text/javascript" src="js/start.js"></script>
 	<script type="text/javascript" src="js/end.js"></script>
 	<script type="text/javascript" src="js/lvlend.js"></script>
+	<!-- <script type="text/javascript" src="js/lvlend_b.js"></script> -->
 	<script type="text/javascript" src="js/unlockMap.js"></script>
-	<script type="text/javascript" src="js/leaderBoard.js"></script>
+	<!-- <script type="text/javascript" src="js/leaderBoard.js"></script> -->
+	<script type="text/javascript" src="js/leaderBoard_b.js"></script>
 	<script type="text/javascript" src="js/instructions.js"></script>
 	<script type="text/javascript" src="js/ghost.js"></script>
+	<script type="text/javascript" src="js/gcomplete.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -27,6 +30,8 @@
 		var gameScore;
 		var noCannons;
 		var level;
+
+		var prevState = "";
 
 		var data = [
 			{
@@ -158,6 +163,14 @@
 			update: updateInst
 		};
 
+		var gameState9 = function() {
+		};
+		gameState9.prototype = {
+			preload: preloadGcomp,
+			create: createGcomp,
+			update: updateGcomp
+		};
+
 
 		game.state.add('Start', gameState1);
 		game.state.add('Main', gameState2);
@@ -167,6 +180,7 @@
 		game.state.add('leaderBoard', gameState6);
 		game.state.add('Ghost', gameState7);
 		game.state.add('instructions', gameState8);
+		game.state.add('gcomplete', gameState9);
 
 		gameReset();
 		game.state.start('Start');
