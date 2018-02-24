@@ -57,7 +57,7 @@ function createMain() {
 
     playerShip = game.add.sprite(400, 520, 'shipx');
     playerShip.scale.setTo(0.8, 0.8);
-    
+
     playerShip.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(playerShip);
     playerShip.body.collideWorldBounds = true;
@@ -110,6 +110,7 @@ function createMain() {
 
     map = game.add.sprite(0, 0, 'mapDrop');
     map.visible = false;
+    map.exists = false;
     map.data.shouldDrop = false;
     map.data.hasDropped = false;
     game.physics.arcade.enable(map);
@@ -260,6 +261,7 @@ function createEnemy() {
                 if ( drop + enemiesKilled > 70) {
                     map.reset(enemyShip.x, enemyShip.y);
                     map.visible = true;
+                    map.exists = true;
                     map.data.hasDropped = true;
                 }
             }
@@ -286,7 +288,7 @@ function eKill(cBall, eShip) {
     boom.anchor.setTo(0.5, 0.5);
     boom.reset(eShip.x, eShip.y);
     boom.animations.add('explode', null, 24, false);
-    boom.animations.play('explode', null, false, true); 
+    boom.animations.play('explode', null, false, true);
 
     cBall.kill();
     hits++;
@@ -306,7 +308,7 @@ function damagePlayerShip(playerShip, cBall) {
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode', null, false, true);
     cBall.kill();
-    playerShip.damage(enemyProps.damage);  
+    playerShip.damage(enemyProps.damage);
 }
 
 function ramShip(playerShip, eShip) {

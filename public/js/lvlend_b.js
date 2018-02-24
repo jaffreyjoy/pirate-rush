@@ -69,7 +69,10 @@ function out() {
 
 function startNextLevel() {
     level += 1;
-    if ( level > 2) {
+    if ( level > 3 ) {
+        game.state.start('gcomplete');
+    }
+    else if ( level > 2) {
         game.state.start('Ghost');
     }
     else

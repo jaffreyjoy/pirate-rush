@@ -55,7 +55,7 @@ function createGhost() {
     ghost.scale.setTo(2.2, 2.2);
     ghost.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(ghost);
-    
+
     ghost.data.entryComplete = false;
     ghost.maxHealth = 1000;
     ghost.health = ghost.maxHealth;
@@ -65,6 +65,7 @@ function createGhost() {
         map.exists = true;
         map.data.hasDropped = true;
         lvlScore += 50000;
+        enemiesKilled++;
     });
     enterBoss();
 
@@ -150,7 +151,7 @@ function updateGhost() {
         if (cursors.up.isDown || wasd.up.isDown) {
             currentSpeed = 150;
         }
-        else { 
+        else {
             if (currentSpeed > 0) {
                 currentSpeed -= 5;
             }
@@ -179,9 +180,9 @@ function updateGhost() {
             game.physics.arcade.velocityFromRotation(ghost.rotation + 3.2, ghostSpeed, ghost.body.velocity);
         }
     }
-    
-    
-    
+
+
+
     var attackStatus = game.time.now;
     if ( ghost.alive && attackStatus > nextVolley && ghostSpeed === 0) {
         nextVolley = game.time.now + volleyDelay;
@@ -200,7 +201,7 @@ function updateGhost() {
             ghostFire();
         }
     }
-    
+
 }
 
 function fireCannon() {
@@ -246,7 +247,7 @@ function chainFire() {
         eCBall.reset(ghost.x, ghost.y);
         game.physics.arcade.moveToObject(eCBall, playerShip, 250);
         count++;
-        if (count > 4) 
+        if (count > 4)
             clearInterval(s);
     }, 100);
 }
@@ -285,6 +286,7 @@ function bomberKill(cBall, bomberShip) {
     boom.animations.play('explode', null, false, true);
     bomberShip.kill();
     hits++;
+    enemiesKilled++;
     lvlScore += 200;
 }
 
@@ -323,7 +325,7 @@ function enterBoss() {
         ghost.body.collideWorldBounds = true;
         ghostSpeed = 0;
     });
-    
+
 }
 
 function iAmDone(playerShip, ghost) {
@@ -334,19 +336,19 @@ function tillDeath() {
     level = 3;
     lvlCannons = noCannons[level];
     ghostSpeed = 50;
-    
+
     nextMove = 15000;
     nextVolley = 10000;
     nextGFire = 10000;
     nextCFire = 10000;
     nextBomber = 10000;
-    
+
     moveDelay = 15000;
     volleyDelay = 2000;
     gFireDelay = 2000;
     cFireDelay = 3500;
     bomberDelay = 5000;
-    
+
     lvlScore = 0;
     hits = 0;
     enemiesKilled = 0;
