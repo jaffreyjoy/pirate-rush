@@ -1,5 +1,3 @@
-// Javascript for the main game
-
 var playerShip;
 var shipCannon;
 var cannonballs;
@@ -11,8 +9,7 @@ var eCannonballs;
 var enemyProps;
 var nextFleet = 3000;
 
-// Should be fire delay, as implemented the larger the value the larger will be delay between cannon fires
-var fireDelay = 300;
+var fireDelay = 800;
 var cballSpeed = 500;
 var nextFire = 0;
 
@@ -44,8 +41,6 @@ function preloadMain() {
     game.load.image('cannonLogo', 'assets/ui/cannonLogo.png');
     game.load.spritesheet('ship0', 'assets/ship_0.png');
     game.load.spritesheet('ship1', 'assets/ship_1.png');
-    //game.load.spritesheet('ship10', 'assets/ship_10r.png');
-    //game.load.spritesheet('ship11', 'assets/ship_11r.png');
     game.load.spritesheet('ship20', 'assets/ship_20r.png');
     game.load.spritesheet('ship21', 'assets/ship_21r.png');
     game.load.spritesheet('ship22', 'assets/ship_22r.png');
@@ -53,42 +48,26 @@ function preloadMain() {
     game.load.spritesheet('mapDrop', 'assets/t_map.png');
     game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
     game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
-    // game.load.bitmapFont('zilla-slab', 'assets/fonts/zilla-slab/zilla-slab.png', 'assets/fonts/zilla-slab/zilla-slab.fnt');
-
 }
 
 function createMain() {
-    // Add Physics to system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     game.add.sprite(0, 0, 'sea');
 
-    //Add score text
-    // scoreText = game.add.bitmapText(535, 570, 'gem', gst+lvlScore.toString(), 25);
-    // scoreText.tint = 0x223344;
-    // scoreText.text = lvlScore.toString();
-    //Add canonns left text
-
-    // cannonsLeftText.text = lvlCannons.toString();
-
-    // Player ship and its properties
     playerShip = game.add.sprite(400, 520, 'shipx');
     playerShip.scale.setTo(0.8, 0.8);
-    // playerShip.rotation = 3.2;
+    
     playerShip.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(playerShip);
     playerShip.body.collideWorldBounds = true;
     playerShip.maxHealth = 100;
     playerShip.health = playerShip.maxHealth;
-    // playerShip.animations.add('move', [0, 1], 10, true);
 
-    // ship Cannon and its properties
     shipCannon = game.add.sprite(400, 550, 'cannon');
     shipCannon.scale.setTo(0.8, 0.8);
-    //anchor for rotation performed in update function
     shipCannon.anchor.setTo(0.5, 0.8);
 
-    //  Our cannons group
     cannonballs = game.add.group();
     cannonballs.enableBody = true;
     cannonballs.physicsBodyType = Phaser.Physics.ARCADE;
@@ -98,7 +77,6 @@ function createMain() {
     cannonballs.setAll('outOfBoundsKill', true);
     cannonballs.setAll('checkWorldBounds', true);
 
-    // Enemy ships group
     enemyFleet = game.add.group();
     enemyFleet.enableBody = true;
     enemyFleet.physicsBodyType = Phaser.Physics.ARCADE;
@@ -113,7 +91,6 @@ function createMain() {
         enemyTime.push(0);
     }
 
-    // Enemy cannons group
     eCannonballs = game.add.group();
     eCannonballs.enableBody = true;
     eCannonballs.physicsBodyType = Phaser.Physics.ARCADE;
@@ -123,9 +100,7 @@ function createMain() {
     eCannonballs.setAll('outOfBoundsKill', true);
     eCannonballs.setAll('checkWorldBounds', true);
 
-    // Add cursor controls
     cursors = game.input.keyboard.createCursorKeys();
-    // Add WASD controls
     wasd = {
         up: game.input.keyboard.addKey(Phaser.Keyboard.W),
         down: game.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -133,7 +108,6 @@ function createMain() {
         right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     };
 
-    // The map drop sprite
     map = game.add.sprite(0, 0, 'mapDrop');
     map.visible = false;
     map.data.shouldDrop = false;
@@ -153,15 +127,12 @@ function createMain() {
 
 function updateMain() {
     if ( (cannonballsDead >= noCannons[level] && !map.data.hasDropped) || !playerShip.alive) {
-        // game.state.states['End'].finalScore = lvlScore;
         gameScore += lvlScore;
         game.state.start('End');
     }
 
     if (enemiesKilled >= enemyProps.totalEnemies) {
         map.data.shouldDrop = true;
-        // lvlEnd = game.time.now;
-        // game.state.start('mapUnlock');
     }
 
     LifeText.text = playerShip.health.toString();
@@ -171,38 +142,33 @@ function updateMain() {
     game.physics.arcade.collide(playerShip, eCannonballs, damagePlayerShip, null, this);
     game.physics.arcade.collide(playerShip, enemyFleet, ramShip, null, this);
 
-    // Reset player ship velocity
     playerShip.body.velocity.x = 0;
     playerShip.body.velocity.y = 0;
 
-    //set position of cannon sprite to the front of the ship deck
     shipCannon.x = playerShip.x;
     shipCannon.y = playerShip.y;
 
-    //change cannon rotation based on mouse pointer
-    //(1.6 offset added as the vertical side of the img was pointing to the mouse pointer (if not added))
     shipCannon.rotation = game.physics.arcade.angleToPointer(shipCannon) + 1.6;
 
-    // Rotation of player ship
+
     if (cursors.left.isDown || wasd.left.isDown) {
-        //Move left
+
         playerShip.angle -= 5;
-        // playerShip.animations.play('move');
+
     }
     else if (cursors.right.isDown || wasd.right.isDown) {
-        //Move right
+
         playerShip.angle += 5;
-        // playerShip.animations.play('move');
+
     }
 
-    // Movement of player ship
     if (cursors.up.isDown || wasd.up.isDown) {
-        //Move up
+
         currentSpeed = 150;
-        // playerShip.body.velocity.y = -150;
+
     }
     else {
-        //Stop motion
+
         if (currentSpeed > 0) {
             currentSpeed -= 5;
         }
@@ -213,7 +179,7 @@ function updateMain() {
     }
 
     if (game.input.activePointer.isDown) {
-        //  Boom!
+
         fireCannon();
     }
 
@@ -230,7 +196,7 @@ function updateMain() {
         setTimeout( function() {
             eShip.angle = game.rnd.integerInRange(0, 180);
             game.physics.arcade.velocityFromRotation(Phaser.Math.degToRad(eShip.angle), 70, eShip.body.velocity);
-        },enemyProps.wait);
+        }, enemyProps.wait);
        }
    }, this);
 }
@@ -258,7 +224,6 @@ function fireCannon() {
         if (game.time.now > nextFire && cannonballs.countDead() > 0) {
             nextFire = game.time.now + fireDelay;
             var cannonball = cannonballs.getFirstExists(false);
-            console.log("cannonballDead: ", cannonballsDead);
             cannonball.reset(shipCannon.x, shipCannon.y);
             cannonball.rotation = game.physics.arcade.moveToPointer(
                 cannonball,
@@ -292,7 +257,6 @@ function createEnemy() {
         enemyShip.events.onKilled.addOnce( function() {
             if (map.data.shouldDrop && !map.data.hasDropped && enemyShip.data.playerKill){
                 var drop = game.rnd.integerInRange(0, 100);
-                console.log("Drop: ", drop);
                 if ( drop + enemiesKilled > 70) {
                     map.reset(enemyShip.x, enemyShip.y);
                     map.visible = true;
@@ -322,7 +286,7 @@ function eKill(cBall, eShip) {
     boom.anchor.setTo(0.5, 0.5);
     boom.reset(eShip.x, eShip.y);
     boom.animations.add('explode', null, 24, false);
-    boom.animations.play('explode', null, false, true); //(animation_name,frame_rate,loop,killOnComplete_flag)
+    boom.animations.play('explode', null, false, true); 
 
     cBall.kill();
     hits++;
@@ -331,13 +295,11 @@ function eKill(cBall, eShip) {
         enemiesKilled++;
         eShip.data.playerKill = true;
         lvlScore += enemyProps.killPoints;
-        // scoreText.text = gst + lvlScore.toString();
-        console.log("EKilled: ", enemiesKilled);
     }
     eShip.damage(50);
 }
 
-function damagePlayerShip(playerShip, cBall) {  //collideCallback(sprite, group) always
+function damagePlayerShip(playerShip, cBall) {
     var boom = game.add.sprite(0, 0, 'kaboom');
     boom.anchor.setTo(0.5, 0.5);
     boom.reset(cBall.x, cBall.y);
@@ -358,7 +320,6 @@ function ramShip(playerShip, eShip) {
     playerShip.damage(50);
     enemiesKilled++;
     lvlScore += enemyProps.killPoints;
-    console.log("EKilled: ", enemiesKilled);
 }
 
 function levelComplete() {

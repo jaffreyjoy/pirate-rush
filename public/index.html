@@ -22,9 +22,6 @@
 <body>
 
 	<script type="text/javascript">
-
-		console.log('test');
-
 		var game = new Phaser.Game(800, 600, Phaser.AUTO);
 
 		var gameScore;
@@ -63,7 +60,7 @@
 			health : 50,
 			damage : 20,
 			killPoints : 100,
-			totalEnemies : 5,
+			totalEnemies : 12,
 			spawns : 3,
 			delay : 2000,
 			wait : 700,
@@ -75,7 +72,7 @@
 			health : 100,
 			damage : 30,
 			killPoints : 250,
-			totalEnemies : 5,
+			totalEnemies : 16,
 			spawns : 4,
 			delay : 2000,
 			wait : 1200,
@@ -87,7 +84,7 @@
 			health : 150,
 			damage : 40,
 			killPoints : 400,
-			totalEnemies : 5,
+			totalEnemies : 20,
 			spawns : 2,
 			delay : 3000,
 			wait : 1500,
@@ -97,7 +94,6 @@
 
 
 		var gameState1 = function() {
-			console.log('Gamestate 1 - Start game');
 		};
 		gameState1.prototype = {
 			preload: preloadStart,
@@ -106,7 +102,6 @@
 		};
 
 		var gameState2 = function() {
-			console.log('Gamestate 2 - Main game');
 		};
 		gameState2.prototype = {
 			preload: preloadMain,
@@ -116,7 +111,6 @@
 
 
 		var gameState3 = function() {
-			console.log('Gamestate 3 - Map Unlock');
 		};
 		gameState3.prototype = {
 			preload: preloadMap,
@@ -125,7 +119,6 @@
 		}
 
 		var gameState4 = function() {
-			console.log('Gamestate 4 - Level End');
 		};
 		gameState4.prototype = {
 			preload: preloadLvl,
@@ -134,7 +127,6 @@
 		}
 
 		var gameState5 = function() {
-			console.log('Gamestate 5 - End game');
 		};
 		gameState5.prototype = {
 			preload: preloadEnd,
@@ -143,7 +135,6 @@
 		};
 
 		var gameState6 = function() {
-			console.log('Gamestate 6 - Leaderboard');
 		};
 		gameState6.prototype = {
 			preload: preloadLeadB,
@@ -152,7 +143,6 @@
 		};
 
 		var gameState7 = function() {
-			console.log('Gamestate 7 - Boss');
 		};
 		gameState7.prototype = {
 			preload: preloadGhost,
@@ -161,7 +151,6 @@
 		}
 
 		var gameState8 = function() {
-			console.log('Gamestate 8 - Instructions');
 		};
 		gameState8.prototype = {
 			preload: preloadInst,

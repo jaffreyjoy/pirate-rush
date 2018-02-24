@@ -5,7 +5,6 @@ function preloadMap() {
     setAssetVariables();
     game.load.image('lvl-end', 'assets/ui/sea-tile-dark.png');
     game.load.spritesheet('lMap', 'assets/ui/levels/'+levelMap, 500,500);
-    console.log('assets/ui/levels/' + levelMap);
     game.load.spritesheet('nextButton', 'assets/ui/next-level-buttonx.png', 116, 116, 3);
     game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 }
@@ -34,15 +33,14 @@ function setAssetVariables() {
 }
 
 function up() {
-    console.log('button up', arguments);
 }
 
 function over() {
-    console.log('button over');
+
 }
 
 function out() {
-    console.log('button out');
+
 }
 
 function animateMap(){

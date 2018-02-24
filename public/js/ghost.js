@@ -1,4 +1,6 @@
 var ghost;
+var nextMove;
+var moveDelay;
 var nextVolley;
 var volleyDelay;
 var gFireDelay;
@@ -18,6 +20,7 @@ function preloadGhost() {
     game.load.image('bomber', 'assets/bomber.png');
     game.load.spritesheet('shipx', 'assets/shipx.png');
     game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
+    game.load.spritesheet('boom', 'assets/explosion_grey.png', 64, 64, 24);
     game.load.spritesheet('mapDrop', 'assets/t_map.png');
     game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 }
@@ -27,7 +30,6 @@ function createGhost() {
 
     game.add.sprite(0, 0, 'sea');
 
-    // Player ship and its properties
     playerShip = game.add.sprite(400, 520, 'shipx');
     playerShip.scale.setTo(0.8, 0.8);
     playerShip.anchor.setTo(0.5, 0.5);
@@ -36,13 +38,10 @@ function createGhost() {
     playerShip.maxHealth = 100;
     playerShip.health = playerShip.maxHealth;
 
-    // ship Cannon and its properties
     shipCannon = game.add.sprite(400, 550, 'cannon');
     shipCannon.scale.setTo(0.8, 0.8);
-    //anchor for rotation performed in update function
     shipCannon.anchor.setTo(0.5, 0.8);
 
-    //  Our cannons group
     cannonballs = game.add.group();
     cannonballs.enableBody = true;
     cannonballs.physicsBodyType = Phaser.Physics.ARCADE;
@@ -52,20 +51,23 @@ function createGhost() {
     cannonballs.setAll('outOfBoundsKill', true);
     cannonballs.setAll('checkWorldBounds', true);
 
-    // The big boss
-    ghost = game.add.sprite(400, 120, 'ghost');
+    ghost = game.add.sprite(400, -120, 'ghost');
     ghost.scale.setTo(2.2, 2.2);
     ghost.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(ghost);
+    
+    ghost.data.entryComplete = false;
     ghost.maxHealth = 1000;
     ghost.health = ghost.maxHealth;
     ghost.events.onKilled.addOnce( function() {
         map.reset(ghost.x, ghost.y);
         map.visible = true;
+        map.exists = true;
         map.data.hasDropped = true;
+        lvlScore += 50000;
     });
+    enterBoss();
 
-    // The bomber ships
     bombFleet = game.add.group();
     bombFleet.enableBody = true;
     bombFleet.physicsBodyType = Phaser.Physics.ARCADE;
@@ -77,7 +79,6 @@ function createGhost() {
     bombFleet.setAll('outOfBoundsKill', true);
     bombFleet.setAll('checkWorldBounds', true);
 
-    // Enemy cannons group
     eCannonballs = game.add.group();
     eCannonballs.enableBody = true;
     eCannonballs.physicsBodyType = Phaser.Physics.ARCADE;
@@ -87,9 +88,7 @@ function createGhost() {
     eCannonballs.setAll('outOfBoundsKill', true);
     eCannonballs.setAll('checkWorldBounds', true);
 
-    // Add cursor controls
     cursors = game.input.keyboard.createCursorKeys();
-    // Add WASD controls
     wasd = {
         up: game.input.keyboard.addKey(Phaser.Keyboard.W),
         down: game.input.keyboard.addKey(Phaser.Keyboard.S),
@@ -97,9 +96,9 @@ function createGhost() {
         right: game.input.keyboard.addKey(Phaser.Keyboard.D),
     };
 
-    // The map drop sprite
     map = game.add.sprite(0, 0, 'mapDrop');
     map.visible = false;
+    map.exists = false;
     map.data.shouldDrop = false;
     map.data.hasDropped = false;
     game.physics.arcade.enable(map);
@@ -117,7 +116,6 @@ function createGhost() {
 
 function updateGhost() {
     if ( (cannonballsDead >= noCannons[level] && !map.data.hasDropped) || !playerShip.alive) {
-        // game.state.states['End'].finalScore = lvlScore;
         gameScore += lvlScore;
         game.state.start('End');
     }
@@ -129,68 +127,76 @@ function updateGhost() {
     game.physics.arcade.overlap(playerShip, ghost, iAmDone, null, this);
     game.physics.arcade.collide(playerShip, eCannonballs, killPlayerShip, null, this);
     game.physics.arcade.collide(playerShip, bombFleet, bomberHit, null, this);
+    game.physics.arcade.overlap(ghost, cannonballs, ghostHit, null, this);
 
-    // Reset player ship velocity
     playerShip.body.velocity.x = 0;
     playerShip.body.velocity.y = 0;
 
-    //set position of cannon sprite to the front of the ship deck
+
     shipCannon.x = playerShip.x;
     shipCannon.y = playerShip.y;
 
-    //change cannon rotation based on mouse pointer
-    //(1.6 offset added as the vertical side of the img was pointing to the mouse pointer (if not added))
     shipCannon.rotation = game.physics.arcade.angleToPointer(shipCannon) + 1.6;
 
-    // Rotation of player ship
-    if (cursors.left.isDown || wasd.left.isDown) {
-        //Move left
-        playerShip.angle -= 5;
-        // playerShip.animations.play('move');
-    }
-    else if (cursors.right.isDown || wasd.right.isDown) {
-        //Move right
-        playerShip.angle += 5;
-        // playerShip.animations.play('move');
-    }
+    if (ghost.data.entryComplete) {
+        if (cursors.left.isDown || wasd.left.isDown) {
+            playerShip.angle -= 5;
 
-    // Movement of player ship
-    if (cursors.up.isDown || wasd.up.isDown) {
-        //Move up
-        currentSpeed = 150;
-        // playerShip.body.velocity.y = -150;
-    }
-    else {
-        //Stop motion
+        }
+        else if (cursors.right.isDown || wasd.right.isDown) {
+            playerShip.angle += 5;
+        }
+
+        if (cursors.up.isDown || wasd.up.isDown) {
+            currentSpeed = 150;
+        }
+        else { 
+            if (currentSpeed > 0) {
+                currentSpeed -= 5;
+            }
+        }
+
         if (currentSpeed > 0) {
-            currentSpeed -= 5;
+            game.physics.arcade.velocityFromRotation(playerShip.rotation - 1.6, currentSpeed, playerShip.body.velocity);
+        }
+
+        if (game.input.activePointer.isDown) {
+            fireCannon();
+        }
+
+        ghost.body.velocity.x = 0;
+        ghost.body.velocity.y = 0;
+
+        if ( game.time.now > nextMove) {
+            nextMove += moveDelay;
+            ghostSpeed = 200;
+            ghost.angle = game.rnd.integerInRange(0, 360);
+            game.physics.arcade.velocityFromRotation(Phaser.Math.degToRad(ghost.angle), ghostSpeed, ghost.body.velocity);
+        }
+
+        if (ghostSpeed > 0) {
+            ghostSpeed -= 2;
+            game.physics.arcade.velocityFromRotation(ghost.rotation + 3.2, ghostSpeed, ghost.body.velocity);
         }
     }
-
-    if (currentSpeed > 0) {
-        game.physics.arcade.velocityFromRotation(playerShip.rotation - 1.6, currentSpeed, playerShip.body.velocity);
-    }
-
-    if (game.input.activePointer.isDown) {
-        //  Boom!
-        fireCannon();
-    }
-
+    
+    
+    
     var attackStatus = game.time.now;
-    if ( attackStatus > nextVolley){
+    if ( ghost.alive && attackStatus > nextVolley && ghostSpeed === 0) {
         nextVolley = game.time.now + volleyDelay;
         var type = game.rnd.integerInRange(0, 100);
 
-        if ( type > 75 && attackStatus > bomberDelay) {
-            bomberDelay += attackStatus;
+        if ( type > 75 && attackStatus > nextBomber) {
+            nextBomber = bomberDelay + attackStatus;
             deployBombers();
         }
-        else if ( type > 50 && attackStatus > cFireDelay) {
-            cFireDelay += attackStatus;
+        else if ( type > 50 && attackStatus > nextCFire) {
+            nextCFire =  cFireDelay + attackStatus;
             chainFire();
         }
         else if ( type < 50 && attackStatus > gFireDelay) {
-            gFireDelay += attackStatus;
+            nextGFire =  gFireDelay + attackStatus;
             ghostFire();
         }
     }
@@ -202,7 +208,6 @@ function fireCannon() {
         if (game.time.now > nextFire && cannonballs.countDead() > 0) {
             nextFire = game.time.now + fireDelay;
             var cannonball = cannonballs.getFirstExists(false);
-            console.log("cannonballDead: ", cannonballsDead);
             cannonball.reset(shipCannon.x, shipCannon.y);
             cannonball.rotation = game.physics.arcade.moveToPointer(
                 cannonball,
@@ -259,7 +264,7 @@ function deployBombers() {
         count++;
         if (count > 2)
             clearInterval(s);
-    }, 500);
+    }, 1000);
 }
 
 function killPlayerShip(playerShip, eCBall) {
@@ -272,13 +277,15 @@ function killPlayerShip(playerShip, eCBall) {
     playerShip.damage(40);
 }
 
-function bomberKill(playerShip, bomberShip) {
+function bomberKill(cBall, bomberShip) {
     var boom = game.add.sprite(0, 0, 'kaboom');
     boom.anchor.setTo(0.5, 0.5);
     boom.reset(bomberShip.x, bomberShip.y);
     boom.animations.add('explode', null, 24, false);
     boom.animations.play('explode', null, false, true);
     bomberShip.kill();
+    hits++;
+    lvlScore += 200;
 }
 
 function bomberHit(playerShip, bomberShip) {
@@ -291,6 +298,34 @@ function bomberHit(playerShip, bomberShip) {
     playerShip.damage(80);
 }
 
+function ghostHit(ghost, cBall) {
+    var boom = game.add.sprite(0, 0, 'boom');
+    boom.anchor.setTo(0.5, 0.5);
+    boom.reset(cBall.x, cBall.y);
+    boom.animations.add('explode', null, 24, false);
+    boom.animations.play('explode', null, false, true);
+    cBall.kill();
+    ghost.damage(50);
+    hits++;
+}
+
+function enterBoss() {
+    ghost.angle = -90;
+    ghost.body.moveFrom(5000, 50, 90);
+    ghost.body.onMoveComplete.addOnce( function(ghost) {
+        var s = setInterval( function() {
+            ghost.angle++;
+            if (ghost.angle === 0)
+                clearInterval(s);
+        }, 25);
+
+        ghost.data.entryComplete = true;
+        ghost.body.collideWorldBounds = true;
+        ghostSpeed = 0;
+    });
+    
+}
+
 function iAmDone(playerShip, ghost) {
     playerShip.kill();
 }
@@ -298,11 +333,20 @@ function iAmDone(playerShip, ghost) {
 function tillDeath() {
     level = 3;
     lvlCannons = noCannons[level];
-    nextVolley = 4000;
+    ghostSpeed = 50;
+    
+    nextMove = 15000;
+    nextVolley = 10000;
+    nextGFire = 10000;
+    nextCFire = 10000;
+    nextBomber = 10000;
+    
+    moveDelay = 15000;
     volleyDelay = 2000;
     gFireDelay = 2000;
     cFireDelay = 3500;
     bomberDelay = 5000;
+    
     lvlScore = 0;
     hits = 0;
     enemiesKilled = 0;
@@ -310,6 +354,4 @@ function tillDeath() {
     dropStatus = 0;
     mapDropped = false;
     lvlStart = game.time.now;
-
-    console.log('Level: ', level, ' G7 - Bosssssssss');
 }
