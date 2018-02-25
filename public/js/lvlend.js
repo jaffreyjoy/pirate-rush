@@ -1,1 +1,96 @@
-var _0x537f=["\x6C\x76\x6C\x2D\x65\x6E\x64","\x61\x73\x73\x65\x74\x73\x2F\x75\x69\x2F\x6C\x65\x76\x65\x6C\x2D\x63\x6F\x6D\x70\x6C\x65\x74\x65\x2D\x62\x6C\x75\x65\x2E\x70\x6E\x67","\x69\x6D\x61\x67\x65","\x6C\x6F\x61\x64","\x68\x62\x75\x74\x74\x6F\x6E","\x61\x73\x73\x65\x74\x73\x2F\x75\x69\x2F\x68\x6F\x6D\x65\x2D\x62\x75\x74\x74\x6F\x6E\x78\x2E\x70\x6E\x67","\x73\x70\x72\x69\x74\x65\x73\x68\x65\x65\x74","\x6E\x65\x78\x74\x4C\x62\x75\x74\x74\x6F\x6E","\x61\x73\x73\x65\x74\x73\x2F\x75\x69\x2F\x6E\x65\x78\x74\x2D\x6C\x65\x76\x65\x6C\x2D\x62\x75\x74\x74\x6F\x6E\x78\x2E\x70\x6E\x67","\x67\x65\x6D","\x61\x73\x73\x65\x74\x73\x2F\x66\x6F\x6E\x74\x73\x2F\x67\x65\x6D\x2E\x70\x6E\x67","\x61\x73\x73\x65\x74\x73\x2F\x66\x6F\x6E\x74\x73\x2F\x67\x65\x6D\x2E\x78\x6D\x6C","\x62\x69\x74\x6D\x61\x70\x46\x6F\x6E\x74","\x73\x70\x72\x69\x74\x65","\x61\x64\x64","\x63\x65\x6E\x74\x65\x72\x58","\x77\x6F\x72\x6C\x64","\x62\x75\x74\x74\x6F\x6E","\x78","\x79","\x63\x65\x6E\x74\x65\x72\x59","\x45\x6E\x65\x6D\x69\x65\x73\x20\x6B\x69\x6C\x6C\x65\x64\x20\x3A\x20","\x20\x28\x20\x2B\x20","\x20\x29","\x62\x69\x74\x6D\x61\x70\x54\x65\x78\x74","\x74\x69\x6E\x74","\x41\x63\x63\x75\x72\x61\x63\x79\x20\x3A\x20","\x25\x20\x28\x20\x2B\x20","\x54\x69\x6D\x65\x20\x54\x61\x6B\x65\x6E\x20\x3A\x20","\x73\x20\x28\x20\x2B\x20","\x4C\x65\x76\x65\x6C\x20\x53\x63\x6F\x72\x65\x20\x3A\x20","\x74\x6F\x46\x69\x78\x65\x64","\x66\x6C\x6F\x6F\x72","\x73\x65\x6E\x64\x53\x63\x6F\x72\x65","\x65\x6D\x69\x74","\x47\x68\x6F\x73\x74","\x73\x74\x61\x72\x74","\x73\x74\x61\x74\x65","\x4D\x61\x69\x6E"];var socket=io();var eKilled;var ekScore;var accuracy;var acScore;var tTaken;var tTakenScore;var levelScore;function preloadLvl(){calcScore();game[_0x537f[3]][_0x537f[2]](_0x537f[0],_0x537f[1]);game[_0x537f[3]][_0x537f[6]](_0x537f[4],_0x537f[5],116,116,3);game[_0x537f[3]][_0x537f[6]](_0x537f[7],_0x537f[8],116,116,3);game[_0x537f[3]][_0x537f[12]](_0x537f[9],_0x537f[10],_0x537f[11])}function createLvl(){game[_0x537f[14]][_0x537f[13]](0,0,_0x537f[0]);hbutton= game[_0x537f[14]][_0x537f[17]](game[_0x537f[16]][_0x537f[15]]- 150,450,_0x537f[4],goToStartPage,this,1,0);nextLbutton= game[_0x537f[14]][_0x537f[17]](hbutton[_0x537f[18]]+ 150,hbutton[_0x537f[19]],_0x537f[7],startNextLevel,this,1,0);EnemiesKilledText= game[_0x537f[14]][_0x537f[24]](game[_0x537f[16]][_0x537f[15]]- 300,game[_0x537f[16]][_0x537f[20]]- 130,_0x537f[9],_0x537f[21]+ eKilled+ _0x537f[22]+ ekScore+ _0x537f[23],30);EnemiesKilledText[_0x537f[25]]= 0x223344;AccuracyText= game[_0x537f[14]][_0x537f[24]](EnemiesKilledText[_0x537f[18]],EnemiesKilledText[_0x537f[19]]+ 50,_0x537f[9],_0x537f[26]+ accuracy+ _0x537f[27]+ acScore+ _0x537f[23],30);AccuracyText[_0x537f[25]]= 0x223344;TimeTakenText= game[_0x537f[14]][_0x537f[24]](EnemiesKilledText[_0x537f[18]],EnemiesKilledText[_0x537f[19]]+ 100,_0x537f[9],_0x537f[28]+ tTaken+ _0x537f[29]+ tTakenScore+ _0x537f[23],30);TimeTakenText[_0x537f[25]]= 0x223344;LevelScoreText= game[_0x537f[14]][_0x537f[24]](EnemiesKilledText[_0x537f[18]]- 35,EnemiesKilledText[_0x537f[19]]+ 160,_0x537f[9],_0x537f[30]+ levelScore,50);LevelScoreText[_0x537f[25]]= 0x223344}function updateLvl(){}function calcScore(){eKilled= enemiesKilled;ekScore= lvlScore;cannonsFired= noCannons[level]- lvlCannons;if(cannonsFired){accuracy= (hits/ cannonsFired* 100)[_0x537f[31]](2)}else {accuracy= 0};acScore= Math[_0x537f[32]](5000* accuracy/ 100);tTaken= Math[_0x537f[32]]((lvlEnd- lvlStart)/ 1000);tTakenScore= 5000- tTaken* 25;levelScore= ekScore+ acScore+ tTakenScore;gameScore+= levelScore;socket[_0x537f[34]](_0x537f[33],gameScore)}function up(){}function over(){}function out(){}function startNextLevel(){level+= 1;if(level> 2){game[_0x537f[37]][_0x537f[36]](_0x537f[35])}else {game[_0x537f[37]][_0x537f[36]](_0x537f[38])}}
+var socket = io();
+
+var eKilled;
+var ekScore;
+var accuracy;
+var acScore;
+var tTaken;
+var tTakenScore;
+var levelScore;
+
+var lvlEndMusic;
+
+function preloadLvl() {
+    calcScore();
+    // game.load.image('lvl-end', 'assets/ui/level-complete-blue.png');
+    // game.load.spritesheet('hbutton', 'assets/ui/home-buttonx.png', 116, 116, 3);
+    // game.load.spritesheet('nextLbutton', 'assets/ui/next-level-buttonx.png', 116, 116, 3);
+    // game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
+}
+
+function createLvl() {
+    game.add.sprite(0, 0, 'lvl-end');
+    hbutton = game.add.button(game.world.centerX - 150, 450, 'hbutton', goToStartPageFromLvlEnd, this, 1, 0);
+    nextLbutton = game.add.button(hbutton.x + 150, hbutton.y, 'nextLbutton', startNextLevel, this, 1, 0);
+
+    EnemiesKilledText = game.add.bitmapText(game.world.centerX - 300, game.world.centerY - 130, 'gem', "Enemies killed : "+eKilled+" ( + "+ekScore+" )", 30);
+    EnemiesKilledText.tint = 0x223344;
+
+    AccuracyText = game.add.bitmapText(EnemiesKilledText.x, EnemiesKilledText.y + 50, 'gem', "Accuracy : " + accuracy + "% ( + " + acScore + " )", 30);
+    AccuracyText.tint = 0x223344;
+
+    TimeTakenText = game.add.bitmapText(EnemiesKilledText.x, EnemiesKilledText.y + 100, 'gem', "Time Taken : " + tTaken + "s ( + " + tTakenScore + " )", 30);
+    TimeTakenText.tint = 0x223344;
+
+    LevelScoreText = game.add.bitmapText(EnemiesKilledText.x - 35, EnemiesKilledText.y + 160, 'gem', "Level Score : " + levelScore , 50);
+    LevelScoreText.tint = 0x223344;
+
+    lvlEndMusic = game.add.audio('l-end', 1, true);
+    lvlEndMusic.play();
+}
+
+function updateLvl() {
+
+}
+
+function calcScore() {
+    eKilled = enemiesKilled;
+    ekScore = lvlScore;
+    cannonsFired = noCannons[level] - lvlCannons;
+    if (cannonsFired)
+        accuracy = (hits / cannonsFired * 100).toFixed(2);
+    else
+        accuracy = 0;
+    acScore = Math.floor(5000 * accuracy / 100);
+    tTaken = Math.floor((lvlEnd - lvlStart) / 1000);
+    tTakenScore = 5000 - tTaken * 25;
+    levelScore = ekScore + acScore + tTakenScore;
+    gameScore += levelScore;
+    socket.emit("sendScore", gameScore);
+}
+
+function up() {
+
+}
+
+function over() {
+
+}
+
+function out() {
+
+}
+
+function startNextLevel() {
+    level += 1;
+    if ( level > 3 ) {
+        lvlEndMusic.stop();
+        game.state.start('gcomplete');
+    }
+    else if ( level > 2) {
+        lvlEndMusic.stop();
+        game.state.start('Ghost');
+    }
+    else{
+        lvlEndMusic.stop();
+        game.state.start('Main');
+    }
+
+}
+
+function goToStartPageFromLvlEnd(){
+    gameReset();
+    lvlEndMusic.stop();
+    game.state.start('Start');
+}
+
