@@ -1,15 +1,16 @@
 var lStateText;
+var surpriseText;
 var percentText;
 
 function preloadLoading() {
-    game.load.image('start-page', 'assets/ui/start-page.png');
+    game.load.image('load-page', 'assets/ui/load-page.png');
     game.load.spritesheet('nxt-button', 'assets/ui/next-level-buttonx.png', 116, 116, 2);
     game.load.bitmapFont('zilla-slab', 'assets/fonts/zilla-slab/zilla-slab.png', 'assets/fonts/zilla-slab/zilla-slab.fnt');
 }
 
 function createLoading() {
 
-    game.add.sprite(0, 0, 'start-page');
+    game.add.sprite(0, 0, 'load-page');
 
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
@@ -18,8 +19,11 @@ function createLoading() {
     game.load.onFileComplete.add(fileComplete, this);
     game.load.onLoadComplete.add(loadComplete, this);
 
-    lStateText = game.add.bitmapText(game.world.centerX - 150, game.world.centerY + 70, 'zilla-slab','Loading .. ', 50);
+    lStateText = game.add.bitmapText(game.world.centerX - 150, game.world.centerY + 20, 'zilla-slab','Loading .. ', 50);
     lStateText.tint = 0x223344;
+
+    surpriseText = game.add.bitmapText(game.world.centerX - 220, game.world.centerY + 90, 'zilla-slab',"Please be patient.There's a surprise ;) ", 30);
+    surpriseText.tint = 0x223344;
 
     percentText = game.add.bitmapText(game.world.centerX - 180, game.world.centerY + 130, 'zilla-slab', "0 %", 30);
     percentText.tint = 0x223344;
@@ -28,7 +32,8 @@ function createLoading() {
 }
 
 function loadStartPageAssets() {
-    // game.load.image('start-page', 'assets/ui/start-page.png');
+    game.load.image('start-page', 'assets/ui/start-page.png');
+    game.load.spritesheet('abutton', 'assets/ui/audio-button.png', 116, 116, 2);
     game.load.spritesheet('ibutton', 'assets/ui/inst-button.png', 116, 116, 2);
     game.load.spritesheet('pbutton', 'assets/ui/play-buttonx.png', 116, 116, 3);
     game.load.spritesheet('lbutton', 'assets/ui/leader-button.png', 116, 116, 2);
@@ -42,6 +47,7 @@ function loadInstructions(){
     game.load.spritesheet('up-inst', '../assets/ui/inst-gifs/up.png', 277, 184);
     game.load.spritesheet('left-inst', '../assets/ui/inst-gifs/left.png', 277, 184);
     game.load.spritesheet('right-inst', '../assets/ui/inst-gifs/right.png', 277, 184);
+    game.load.audio('inst', ['assets/audio/ogg/inst-cut.ogg']);
 }
 
 function loadLeaderBoard(){

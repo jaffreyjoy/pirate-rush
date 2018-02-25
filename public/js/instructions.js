@@ -1,3 +1,4 @@
+var instMusic;
 
 function preloadInst() {
     // game.load.image('instructions', '../assets/ui/instructions.png');
@@ -32,6 +33,9 @@ function createInst() {
     rightInst.animations.add('right-play');
     rightInst.animations.play('right-play', 10, true);
 
+    instMusic =  game.add.audio('inst', 1, true);
+    instMusic.play();
+
 }
 
 function over() {
@@ -45,5 +49,6 @@ function updateInst() {
 }
 
 function goBack() {
+    instMusic.stop();
     game.state.start('Start');
 }
