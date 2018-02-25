@@ -5,9 +5,11 @@
 	<title>Pirate Rush</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+	<script type="text/javascript" src="js/loading.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/start.js"></script>
-	<script type="text/javascript" src="js/end.js"></script>
+	<!-- <script type="text/javascript" src="js/end.js"></script> -->
+	<script type="text/javascript" src="js/end_b.js"></script>
 	<!-- <script type="text/javascript" src="js/lvlend.js"></script> -->
 	<script type="text/javascript" src="js/lvlend_b.js"></script>
 	<script type="text/javascript" src="js/unlockMap.js"></script>
@@ -32,6 +34,8 @@
 		var level;
 
 		var prevState = "";
+
+		var nextState = "";
 
 		var data = [
 			{
@@ -171,7 +175,15 @@
 			update: updateGcomp
 		};
 
+		var gameState10 = function() {
+		};
+		gameState10.prototype = {
+			preload: preloadLoading,
+			create: createLoading,
+			update: updateLoading
+		};
 
+		game.state.add('loading', gameState10);
 		game.state.add('Start', gameState1);
 		game.state.add('Main', gameState2);
  		game.state.add('mapUnlock', gameState3);
@@ -183,7 +195,7 @@
 		game.state.add('gcomplete', gameState9);
 
 		gameReset();
-		game.state.start('Start');
+		game.state.start('loading');
 
 		function gameReset() {
 			gameScore= 0;

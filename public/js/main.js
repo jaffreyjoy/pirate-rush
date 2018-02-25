@@ -31,23 +31,25 @@ var map;
 var heartLogo;
 var cannonLogo;
 
+var lvlMusic;
+
 function preloadMain() {
     initializeLevel();
 
-    game.load.image('sea', 'assets/sea-tile.png');
-    game.load.image('cannon', 'assets/cannonx.png');
-    game.load.image('cannonball', 'assets/cannonballx.png');
-    game.load.image('heartLogo', 'assets/ui/heartLogo.png');
-    game.load.image('cannonLogo', 'assets/ui/cannonLogo.png');
-    game.load.spritesheet('ship0', 'assets/ship_0.png');
-    game.load.spritesheet('ship1', 'assets/ship_1.png');
-    game.load.spritesheet('ship20', 'assets/ship_20r.png');
-    game.load.spritesheet('ship21', 'assets/ship_21r.png');
-    game.load.spritesheet('ship22', 'assets/ship_22r.png');
-    game.load.spritesheet('shipx', 'assets/shipx.png');
-    game.load.spritesheet('mapDrop', 'assets/t_map.png');
-    game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
-    game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
+    // game.load.image('sea', 'assets/sea-tile.png');
+    // game.load.image('cannon', 'assets/cannonx.png');
+    // game.load.image('cannonball', 'assets/cannonballx.png');
+    // game.load.image('heartLogo', 'assets/ui/heartLogo.png');
+    // game.load.image('cannonLogo', 'assets/ui/cannonLogo.png');
+    // game.load.spritesheet('ship0', 'assets/ship_0.png');
+    // game.load.spritesheet('ship1', 'assets/ship_1.png');
+    // game.load.spritesheet('ship20', 'assets/ship_20r.png');
+    // game.load.spritesheet('ship21', 'assets/ship_21r.png');
+    // game.load.spritesheet('ship22', 'assets/ship_22r.png');
+    // game.load.spritesheet('shipx', 'assets/shipx.png');
+    // game.load.spritesheet('mapDrop', 'assets/t_map.png');
+    // game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
+    // game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 }
 
 function createMain() {
@@ -124,11 +126,27 @@ function createMain() {
     cannonLogo.scale.setTo(0.15, 0.15);
     cannonsLeftText = game.add.bitmapText(cannonLogo.x + 50, heartLogo.y, 'gem', lvlCannons.toString(), 30);
     cannonsLeftText.tint = 0x223344;
+
+    switch(level){
+        case(0):
+            lvlMusic = game.add.audio('first', 1, true);
+            lvlMusic.play();
+            break;
+        case(1):
+            lvlMusic = game.add.audio('second', 1, true);
+            lvlMusic.play();
+            break;
+        case(2):
+            lvlMusic = game.add.audio('third', 1, true);
+            lvlMusic.play();
+            break;
+    }
 }
 
 function updateMain() {
     if ( (cannonballsDead >= noCannons[level] && !map.data.hasDropped) || !playerShip.alive) {
         gameScore += lvlScore;
+        lvlMusic.stop();
         game.state.start('End');
     }
 
@@ -326,5 +344,9 @@ function ramShip(playerShip, eShip) {
 
 function levelComplete() {
     lvlEnd = game.time.now;
+    if(level<=2)
+        lvlMusic.stop();
+    else
+        bossMusic.stop();
     game.state.start('mapUnlock');
 }

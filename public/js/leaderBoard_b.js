@@ -36,10 +36,12 @@ var coord = [
 var nameText = [];
 var scoreText = [];
 
+var lboardMusic;
+
 function preloadLeadB() {
-    game.load.image('leaderboard', 'assets/ui/leaderboard.png');
-    game.load.spritesheet('prevButton', 'assets/ui/prev-button.png', 116, 116, 3);
-    game.load.bitmapFont('zilla-slab', 'assets/fonts/zilla-slab/zilla-slab.png', 'assets/fonts/zilla-slab/zilla-slab.fnt');
+    // game.load.image('leaderboard', 'assets/ui/leaderboard.png');
+    // game.load.spritesheet('prevButton', 'assets/ui/prev-button.png', 116, 116, 3);
+    // game.load.bitmapFont('zilla-slab', 'assets/fonts/zilla-slab/zilla-slab.png', 'assets/fonts/zilla-slab/zilla-slab.fnt');
 }
 
 function createLeadB() {
@@ -50,6 +52,9 @@ function createLeadB() {
     var name;
 
     var score;
+
+    lboardMusic = game.add.audio('lboard', 1, true);
+    lboardMusic.play();
 
     socket.emit('getHighScore');
     socket.on('sendHighScore', function (dataRes) {
@@ -107,6 +112,7 @@ function updateLeadB() {
 }
 
 function goBackFromLB() {
+    lboardMusic.stop();
     game.state.start(prevState);
 }
 

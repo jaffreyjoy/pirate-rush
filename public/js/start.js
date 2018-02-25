@@ -1,14 +1,13 @@
+var backMusic;
 
 function preloadStart() {
-    game.load.image('start-page', 'assets/ui/start-page.png');
-    game.load.spritesheet('ibutton', 'assets/ui/inst-button.png', 116, 116, 3);
-    game.load.spritesheet('pbutton', 'assets/ui/play-buttonx.png', 116, 116, 3);
-    game.load.spritesheet('lbutton', 'assets/ui/leader-button.png', 116, 116, 3);
+    // game.load.image('start-page', 'assets/ui/start-page.png');
+    // game.load.spritesheet('ibutton', 'assets/ui/inst-button.png', 116, 116, 3);
+    // game.load.spritesheet('pbutton', 'assets/ui/play-buttonx.png', 116, 116, 3);
+    // game.load.spritesheet('lbutton', 'assets/ui/leader-button.png', 116, 116, 3);
 }
 
 function createStart() {
-    game.scale.pageAlignHorizontally = true;
-    game.scale.pageAlignVertically = true;
 
     game.add.sprite(0, 0, 'start-page');
 
@@ -16,20 +15,9 @@ function createStart() {
     ibutton = game.add.button(pbutton.x - 150, 400, 'ibutton', goToInstructions, this, 1, 0);
     lbutton = game.add.button(pbutton.x + 150, 400, 'lbutton', goToLeaderBoard, this, 1, 0);
 
-    pbutton.onInputOver.add(over, this);
-    pbutton.onInputOut.add(out, this);
-    pbutton.onInputUp.add(up, this);
-}
+    backMusic= game.add.audio('start-back',1,true);
 
-function up() {
-
-}
-
-function over() {
-
-}
-
-function out() {
+    backMusic.play();
 
 }
 
@@ -39,14 +27,17 @@ function updateStart() {
 }
 
 function goToInstructions() {
+    backMusic.stop();
     game.state.start('instructions');
 }
 
 function startGame() {
+    backMusic.stop();
     game.state.start('Main');
 }
 
 function goToLeaderBoard() {
+    backMusic.stop();
     prevState = "Start";
     game.state.start('leaderBoard');
 }

@@ -1,11 +1,11 @@
 
 function preloadInst() {
-    game.load.image('instructions', '../assets/ui/instructions.png');
-    game.load.spritesheet('prevButton', '../assets/ui/prev-button.png', 116, 116, 2);
-    game.load.spritesheet('fire-inst', '../assets/ui/inst-gifs/fire.png', 277, 184);
-    game.load.spritesheet('up-inst', '../assets/ui/inst-gifs/up.png', 277, 184);
-    game.load.spritesheet('left-inst', '../assets/ui/inst-gifs/left.png', 277, 184);
-    game.load.spritesheet('right-inst', '../assets/ui/inst-gifs/right.png', 277, 184);
+    // game.load.image('instructions', '../assets/ui/instructions.png');
+    // game.load.spritesheet('prevButton', '../assets/ui/prev-button.png', 116, 116, 2);
+    // game.load.spritesheet('fire-inst', '../assets/ui/inst-gifs/fire.png', 277, 184);
+    // game.load.spritesheet('up-inst', '../assets/ui/inst-gifs/up.png', 277, 184);
+    // game.load.spritesheet('left-inst', '../assets/ui/inst-gifs/left.png', 277, 184);
+    // game.load.spritesheet('right-inst', '../assets/ui/inst-gifs/right.png', 277, 184);
     // game.load.bitmapFont('zilla-slab', 'assets/fonts/zilla-slab/zilla-slab.png', 'assets/fonts/zilla-slab/zilla-slab.fnt');
 }
 
@@ -28,7 +28,7 @@ function createInst() {
     leftInst.animations.add('left-play');
     leftInst.animations.play('left-play', 10, true);
 
-    var rightInst = game.add.sprite(484, 351, 'right-inst');
+    var rightInst = game.add.sprite(485, 351, 'right-inst');
     rightInst.animations.add('right-play');
     rightInst.animations.play('right-play', 10, true);
 

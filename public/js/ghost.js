@@ -8,21 +8,23 @@ var cFireDelay;
 var bomberDelay;
 var bombFleet;
 
+var bossMusic;
+
 function preloadGhost() {
     tillDeath();
 
-    game.load.image('sea', 'assets/sea-tile.png');
-    game.load.image('cannon', 'assets/cannonx.png');
-    game.load.image('cannonball', 'assets/cannonballx.png');
-    game.load.image('heartLogo', 'assets/ui/heartLogo.png');
-    game.load.image('cannonLogo', 'assets/ui/cannonLogo.png');
-    game.load.image('ghost', 'assets/ghost.png');
-    game.load.image('bomber', 'assets/bomber.png');
-    game.load.spritesheet('shipx', 'assets/shipx.png');
-    game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
-    game.load.spritesheet('boom', 'assets/explosion_grey.png', 64, 64, 24);
-    game.load.spritesheet('mapDrop', 'assets/t_map.png');
-    game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
+    // game.load.image('sea', 'assets/sea-tile.png');
+    // game.load.image('cannon', 'assets/cannonx.png');
+    // game.load.image('cannonball', 'assets/cannonballx.png');
+    // game.load.image('heartLogo', 'assets/ui/heartLogo.png');
+    // game.load.image('cannonLogo', 'assets/ui/cannonLogo.png');
+    // game.load.image('ghost', 'assets/ghost.png');
+    // game.load.image('bomber', 'assets/bomber.png');
+    // game.load.spritesheet('shipx', 'assets/shipx.png');
+    // game.load.spritesheet('kaboom', 'assets/explosion.png', 64, 64, 24);
+    // game.load.spritesheet('boom', 'assets/explosion_grey.png', 64, 64, 24);
+    // game.load.spritesheet('mapDrop', 'assets/t_map.png');
+    // game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 }
 
 function createGhost() {
@@ -67,6 +69,10 @@ function createGhost() {
         lvlScore += 50000;
         enemiesKilled++;
     });
+
+    bossMusic = game.add.audio('boss', 1, true);
+    bossMusic.play();
+
     enterBoss();
 
     bombFleet = game.add.group();
@@ -118,6 +124,7 @@ function createGhost() {
 function updateGhost() {
     if ( (cannonballsDead >= noCannons[level] && !map.data.hasDropped) || !playerShip.alive) {
         gameScore += lvlScore;
+        bossMusic.stop();
         game.state.start('End');
     }
 
