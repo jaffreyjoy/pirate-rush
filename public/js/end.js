@@ -3,10 +3,10 @@ var socket = io();
 var gameOverMusic;
 
 function preloadEnd() {
-    game.load.image('end-page', 'assets/ui/end-page.png');
-    game.load.spritesheet('rbutton', 'assets/ui/restart-buttonx.png', 116, 116, 2);
-    game.load.spritesheet('hbutton', 'assets/ui/home-buttonx.png', 116, 116, 2);
-    game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
+    // game.load.image('end-page', 'assets/ui/end-page.png');
+    // game.load.spritesheet('rbutton', 'assets/ui/restart-buttonx.png', 116, 116, 2);
+    // game.load.spritesheet('hbutton', 'assets/ui/home-buttonx.png', 116, 116, 2);
+    // game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
 }
 
 function createEnd() {

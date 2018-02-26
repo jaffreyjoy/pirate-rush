@@ -1,12 +1,13 @@
-var levelMap = "";
+var lvlMap;
 var lMap;
+
 
 var lockMusic;
 var unlockMusic;
 
 function preloadMap() {
-    setAssetVariables();
-    game.load.spritesheet('lMap', 'assets/ui/levels/' + levelMap, 500, 500);
+    // setAssetVariables();
+    // game.load.spritesheet('lMap', 'assets/ui/levels/' + levelMap, 500, 500);
     // game.load.image('map-unlock', 'assets/ui/sea-tile-dark.png');
     // game.load.spritesheet('nextButton', 'assets/ui/next-level-buttonx.png', 116, 116, 3);
     // game.load.bitmapFont('gem', 'assets/fonts/gem.png', 'assets/fonts/gem.xml');
@@ -18,7 +19,8 @@ function createMap() {
     mapUnlockText = game.add.bitmapText(game.world.centerX / 2.5 , game.world.centerY / 9, 'gem', "New MAP CLUE Unlocked", 50);
     mapUnlockText.tint = 0xabe3f5;
 
-    lMap = game.add.sprite(game.world.centerX, game.world.centerY - 20, 'lMap');
+    lvlMap = "lMap" + (level + 1).toString();
+    lMap = game.add.sprite(game.world.centerX, game.world.centerY - 20, lvlMap);
     lMap.alpha = 1;
     lMap.anchor.set(0.5);
     lMap.scale.set(0.1);
@@ -34,9 +36,9 @@ function updateMap() {
 
 }
 
-function setAssetVariables() {
-    levelMap = "lvl"+(level+1).toString()+".png";
-}
+// function setAssetVariables() {
+//     levelMap = "lvl"+(level+1).toString()+".png";
+// }
 
 function up() {
 }

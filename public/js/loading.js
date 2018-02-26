@@ -84,6 +84,10 @@ function loadBossLevelAssets(){
 
 function loadMapUnlock(){
     game.load.image('map-unlock', 'assets/ui/sea-tile-dark.png');
+    game.load.spritesheet('lMap1', 'assets/ui/levels/lvl1.png', 500, 500);
+    game.load.spritesheet('lMap2', 'assets/ui/levels/lvl2.png', 500, 500);
+    game.load.spritesheet('lMap3', 'assets/ui/levels/lvl3.png', 500, 500);
+    game.load.spritesheet('lMap4', 'assets/ui/levels/lvl4.png', 500, 500);
     game.load.spritesheet('nextButton', 'assets/ui/next-level-buttonx.png', 116, 116, 2);
     game.load.audio('lock', ['assets/audio/ogg/lock-cut.ogg']);
     game.load.audio('unlock', ['assets/audio/ogg/unlock-cut.ogg']);
