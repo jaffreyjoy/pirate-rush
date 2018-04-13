@@ -3,6 +3,14 @@
 
 This game was created using `PhaserJS`([check it out](http://phaser.io/)), `nodejs`, `express` and `mongoDB`.
 
+## Contents
+ - [Installation](#installation)
+ - [Running the game](#running-the-game)
+ - [Story](#story)
+ - [Instructions](#instructions)
+ - [How to Play](#how-to-play)
+ - [Screenshots](#screenshots)
+
 ## Installation
  - `nodejs  >= v6.9` [get it here.](https://nodejs.org/en/)
  - Run `npm install` in the root directory.
