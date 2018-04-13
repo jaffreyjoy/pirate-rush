@@ -22,8 +22,7 @@ This game was created using `PhaserJS`([check it out](http://phaser.io/)), `node
  - change the `environment` variable in `app.js` from `production` to `development`.
  - open the terminal (not necessarily in the root directory) and run `mongod` to start the mongo server.
  - open another instance of the terminal in the root directory and execute `node app.js` to start the express server.
- - open your browser and type `localhost:3004` in the address bar to run the game. You can also change the port by changing the 
- `port` variable in `app.js` and restarting the express server.
+ - open your browser and type `localhost:3004` in the address bar to run the game. You can also change the port by changing the value of the `port` variable in `app.js` and restarting the express server.
 
 ---------------------
 
