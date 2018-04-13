@@ -45,7 +45,7 @@ he needs to fight many other pirates who have the pieces of the map that leads t
 
  - Press <kbd>D</kbd> or <kbd>⭢</kbd> to rotate the helm(steering) of the ship towards the right.
 
- - Move the <kbd>mouse</kbd> around to change the angle of the cannon.
+ - Move the <kbd>mouse</kbd> around to change the direction of the cannon.
 
  - Left click the <kbd>mouse</kbd> to fire a cannonball.
  
