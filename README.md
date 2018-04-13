@@ -34,8 +34,8 @@ he needs to fight many other pirates who have the pieces of the map that leads t
 ## Instructions
  - The score will be based on how quickly an enemy pirate is defeated, the amount of ammo used and accuracy of the cannon shots. 
  - As the battle nears its end a map will spawn on the location of the last ship that was shot down. 
- - Collecting the map will take you to the nwxt level.
- - There are 4 levels with the 4th one being the *BOSS* level.
+ - Collecting the map will take you to the next level.
+ - There are 4 levels with the 4th one being the **BOSS** level.
 > ### Play with volume on for best experience. Enjoy the thrilling 🎵 🎶
  
 ## How to play
