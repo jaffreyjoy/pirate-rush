@@ -1,5 +1,5 @@
 # pirate-rush
-🎮🚢 An enticing and engaging game for DBIT's online techfest Teknack'18. Ahoy mates. Welcome aboard!!
+🎮🚤 An enticing and engaging game for DBIT's online techfest Teknack'18. Ahoy mates. Welcome aboard!!
 
 This game was created using `PhaserJS`([check it out](http://phaser.io/)), `nodejs`, `express` and `mongoDB`.
 
