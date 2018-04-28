@@ -38,6 +38,7 @@ This game was created using `PhaserJS`([check it out](http://phaser.io/)), `node
 he needs to fight many other pirates who have the pieces of the map that leads to the greatest treasure.
 
 ## Instructions
+ - The main objective is to shoot down a particular number(varies for each level) of enemy pirate ships before you run out of life or ammo.
  - The score will be based on how quickly a level is completed, the amount of ammo used and accuracy of the cannon shots. 
  - As the battle nears its end a map will spawn on the location of the last ship that was shot down. 
  - Collecting the map will take you to the next level.
