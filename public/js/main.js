@@ -337,7 +337,7 @@ function ramShip(playerShip, eShip) {
     boom.animations.play('explode', null, false, true);
     eShip.data.playerKill = true;
     eShip.kill();
-    playerShip.damage(50);
+    playerShip.damage((level+1)*15);
     enemiesKilled++;
     lvlScore += enemyProps.killPoints;
 }

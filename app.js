@@ -19,8 +19,8 @@ Change the environment variable during deployment
 
 //********************Session Code Start*******************************//
 //Copy from here
-const environment = "production";  ///change it to "production" when the game is deployed on the teknack servers
-// const environment = "development";
+// const environment = "production";  ///change it to "production" when the game is deployed on the teknack servers
+const environment = "development";
 
 const sessions = require("client-sessions");
 const bodyParser = require('body-parser');

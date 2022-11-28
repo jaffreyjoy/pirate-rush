@@ -34,9 +34,16 @@ function updateEnd() {
 }
 
 function restartGame() {
-    gameReset();
     gameOverMusic.stop();
-    game.state.start('Main');
+    gameSoftReset();
+    if ( level == 3 ) {
+        lvlEndMusic.stop();
+        game.state.start('Ghost');
+    }
+    else if ( level <= 2 ) {
+        lvlEndMusic.stop();
+        game.state.start('Main');
+    }
 }
 
 function goToStartPage() {

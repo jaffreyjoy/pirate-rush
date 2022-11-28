@@ -5,19 +5,20 @@
 	<title>Pirate Rush</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-	<script type="text/javascript" src="js/obf/loading.js"></script>
-	<script type="text/javascript" src="js/obf/main.js"></script>
-	<script type="text/javascript" src="js/obf/start.js"></script>
-	<script type="text/javascript" src="js/obf/end.js"></script>
-	<script type="text/javascript" src="js/obf/lvlend.js"></script>
-	<script type="text/javascript" src="js/obf/unlockMap.js"></script>
-	<script type="text/javascript" src="js/obf/leaderBoard.js"></script>
-	<script type="text/javascript" src="js/obf/instructions.js"></script>
-	<script type="text/javascript" src="js/obf/ghost.js"></script>
-	<script type="text/javascript" src="js/obf/gcomplete.js"></script>
+	<script type="text/javascript" src="js/loading.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/start.js"></script>
+	<script type="text/javascript" src="js/end.js"></script>
+	<script type="text/javascript" src="js/lvlend.js"></script>
+	<script type="text/javascript" src="js/unlockMap.js"></script>
+	<script type="text/javascript" src="js/leaderBoard.js"></script>
+	<script type="text/javascript" src="js/instructions.js"></script>
+	<script type="text/javascript" src="js/ghost.js"></script>
+	<script type="text/javascript" src="js/gcomplete.js"></script>
     <style type="text/css">
         body {
             margin: 0;
+			background-color: #034f7e;
         }
     </style>
 </head>
@@ -201,6 +202,11 @@
 			gameScore= 0;
 			noCannons = [20, 45, 75, 30];
 			level = 0;
+		}
+
+		function gameSoftReset() {
+			gameScore= 0;
+			noCannons = [20, 45, 75, 30];
 		}
 	</script>
 
